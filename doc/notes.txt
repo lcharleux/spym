@@ -1,0 +1,7 @@
+# Full update:
+sphinx-build -a . _build/html
+
+# Normal update
+make html
+make latex
+make latexpdf
