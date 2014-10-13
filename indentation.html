@@ -1,0 +1,406 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Indentation &mdash; spym 1.0.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '1.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="spym 1.0.0 documentation" href="index.html" />
+    <link rel="prev" title="Scratch" href="scratch.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="scratch.html" title="Scratch"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">spym 1.0.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="indentation">
+<h1>Indentation<a class="headerlink" href="#indentation" title="Permalink to this headline">¶</a></h1>
+<p>Indentation testing processing tools.</p>
+<div class="section" id="measurements">
+<h2>Measurements<a class="headerlink" href="#measurements" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="spym.indentation.Indenter_orientation">
+<tt class="descclassname">spym.indentation.</tt><tt class="descname">Indenter_orientation</tt><big>(</big><em>image</em>, <em>edges</em>, <em>rmax='min'</em>, <em>width=0.5</em><big>)</big><a class="reference internal" href="_modules/spym/indentation.html#Indenter_orientation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spym.indentation.Indenter_orientation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Finds the orientation of a pyramidal indenter using the imprint.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>image</strong> (<tt class="docutils literal"><span class="pre">spy.generic.Spm_image</span></tt> instance) &#8211; imprint</li>
+<li><strong>edges</strong> (<em>int</em>) &#8211; number of edges on the indenter.</li>
+<li><strong>rmax</strong> (<em>float, &#8216;min&#8217; or &#8216;max&#8217;</em>) &#8211; max radius for the polar interpolation.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">spym.generic</span> <span class="kn">import</span> <span class="n">Spm_image</span>
+<span class="kn">from</span> <span class="nn">spym.indentation</span> <span class="kn">import</span> <span class="n">Indenter_orientation</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+
+
+<span class="c">#file_name = &#39;wg_berk-0deg_n2_6um_000_TR.txt&#39;</span>
+<span class="c">#file_name = &#39;BMG8-zr60cu30al10_375c_10mN_6um_000_TR.txt&#39;</span>
+<span class="n">file_name</span> <span class="o">=</span> <span class="s">&#39;BMG6-Zr60Cu30Al10-asQ_003_TR.txt&#39;</span>
+<span class="n">image</span> <span class="o">=</span> <span class="n">Spm_image</span><span class="p">()</span>
+<span class="n">image</span><span class="o">.</span><span class="n">load_from_file</span><span class="p">(</span><span class="n">file_name</span><span class="p">)</span>
+<span class="n">image</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">crop</span><span class="p">(</span><span class="n">cx0</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="n">cx1</span><span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="n">cy0</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="n">cy1</span><span class="o">=</span> <span class="mi">10</span><span class="p">)</span>
+<span class="n">image</span><span class="o">.</span><span class="n">center_min</span><span class="p">()</span>
+<span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">Z</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">get_xyz</span><span class="p">()</span>
+<span class="n">edges</span> <span class="o">=</span> <span class="mi">3</span>
+<span class="n">R</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">Z</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">get_rtz</span><span class="p">(</span><span class="n">rmax</span> <span class="o">=</span> <span class="s">&#39;min&#39;</span><span class="p">)</span>
+<span class="n">rotation</span><span class="p">,</span> <span class="n">spectrum</span><span class="p">,</span> <span class="n">edges</span><span class="p">,</span> <span class="n">rtz</span> <span class="o">=</span> <span class="n">Indenter_orientation</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">edges</span><span class="p">)</span>
+<span class="n">t</span><span class="p">,</span> <span class="n">z</span> <span class="o">=</span> <span class="n">spectrum</span> <span class="c"># Spectrum</span>
+<span class="n">te</span><span class="p">,</span> <span class="n">ze</span> <span class="o">=</span> <span class="n">edges</span>  <span class="c"># Detected edges</span>
+<span class="n">Rl</span><span class="p">,</span> <span class="n">Tl</span><span class="p">,</span> <span class="n">Zl</span> <span class="o">=</span> <span class="n">rtz</span> <span class="c"># Cylindrical interpolation of the laplacian of the image</span>
+<span class="n">n_levels</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">221</span><span class="p">,</span> <span class="n">polar</span> <span class="o">=</span> <span class="bp">True</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s">&#39;Original image&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">R</span><span class="p">,</span> <span class="n">Z</span><span class="p">,</span> <span class="n">n_levels</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">yticks</span><span class="p">([])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">radians</span><span class="p">([</span><span class="mf">0.</span><span class="p">,</span> <span class="mf">45.</span><span class="p">,</span> <span class="mf">135.</span><span class="p">,</span> <span class="mf">180.</span><span class="p">,</span> <span class="mf">225.</span><span class="p">,</span> <span class="mf">315.</span><span class="p">]))</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">222</span><span class="p">,</span> <span class="n">polar</span> <span class="o">=</span> <span class="bp">True</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s">&#39;Laplacian&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span><span class="n">Tl</span><span class="p">,</span> <span class="n">Rl</span><span class="p">,</span> <span class="n">Zl</span><span class="p">,</span> <span class="n">n_levels</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">yticks</span><span class="p">([])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">radians</span><span class="p">([</span><span class="mf">0.</span><span class="p">,</span> <span class="mf">45.</span><span class="p">,</span> <span class="mf">135.</span><span class="p">,</span> <span class="mf">180.</span><span class="p">,</span> <span class="mf">225.</span><span class="p">,</span> <span class="mf">315.</span><span class="p">]))</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">223</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s">&#39;Spectrum&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">z</span><span class="p">,</span> <span class="s">&#39;b-&#39;</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s">&#39;spectrum&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">te</span><span class="p">,</span> <span class="n">ze</span><span class="p">,</span> <span class="s">&#39;or&#39;</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s">&#39;peaks&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span> <span class="o">=</span> <span class="s">&#39;lower center&#39;</span><span class="p">,</span> <span class="n">ncol</span> <span class="o">=</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s">r&#39;Azimut&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s">r&#39;Amplitude&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">te</span><span class="p">,</span> <span class="p">[</span><span class="s">&#39;{0:.1f}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tte</span><span class="p">)</span> <span class="o">+</span> <span class="s">r&#39;$^O$&#39;</span> <span class="k">for</span> <span class="n">tte</span> <span class="ow">in</span> <span class="n">te</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">yticks</span><span class="p">([])</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">224</span><span class="p">,</span> <span class="n">polar</span> <span class="o">=</span> <span class="bp">True</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s">&#39;Detected edges&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span><span class="n">Tl</span><span class="p">,</span> <span class="n">Rl</span><span class="p">,</span> <span class="n">Zl</span><span class="p">,</span> <span class="n">n_levels</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">yticks</span><span class="p">([])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">te</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>(<a class="reference external" href="./example_code/indentation/Indenter_orientation.py">Source code</a>, <a class="reference external" href="./example_code/indentation/Indenter_orientation.png">png</a>, <a class="reference external" href="./example_code/indentation/Indenter_orientation.hires.png">hires.png</a>, <a class="reference external" href="./example_code/indentation/Indenter_orientation.pdf">pdf</a>)</p>
+<div class="figure">
+<img alt="_images/Indenter_orientation.png" src="_images/Indenter_orientation.png" />
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="spym.indentation.Pyramidal_indenter">
+<tt class="descclassname">spym.indentation.</tt><tt class="descname">Pyramidal_indenter</tt><big>(</big><em>image</em>, <em>sides=3</em>, <em>angle=65.27</em>, <em>rotation=0.0</em><big>)</big><a class="reference internal" href="_modules/spym/indentation.html#Pyramidal_indenter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spym.indentation.Pyramidal_indenter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Builts a pyramidal indenter based on an existing image. The image is used to find xy and z units, lx and ly and the position of the origin. The tip of the indenter is always at X = Y = 0.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>image</strong> (<tt class="docutils literal"><span class="pre">spym.generic.Spm_image</span></tt> instance.) &#8211; the image to use.</li>
+<li><strong>sides</strong> (<em>int</em>) &#8211; number of sides.</li>
+<li><strong>angle</strong> (<em>float</em>) &#8211; angle between the axis and the faces.</li>
+<li><strong>rotation</strong> (<em>float</em>) &#8211; rotation or the sides in the (x,y) plane in degrees.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">spym.generic</span> <span class="kn">import</span> <span class="n">Spm_image</span>
+<span class="kn">from</span> <span class="nn">spym.indentation</span> <span class="kn">import</span> <span class="n">Indenter_orientation</span><span class="p">,</span> <span class="n">Pyramidal_indenter</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+
+
+<span class="n">file_name</span> <span class="o">=</span> <span class="s">&#39;fq_hys_10mN_4um_003_TF.txt&#39;</span>
+<span class="c">#file_name = &#39;wg_berk-0deg_n2_6um_000_TR.txt&#39;</span>
+<span class="c">#file_name = &#39;BMG8-zr60cu30al10_375c_10mN_6um_000_TR.txt&#39;</span>
+<span class="c">#file_name = &#39;BMG6-Zr60Cu30Al10-asQ_003_TR.txt&#39;</span>
+<span class="n">image</span> <span class="o">=</span> <span class="n">Spm_image</span><span class="p">()</span>
+<span class="n">image</span><span class="o">.</span><span class="n">load_from_file</span><span class="p">(</span><span class="n">file_name</span><span class="p">)</span>
+<span class="n">image</span><span class="o">.</span><span class="n">change_z_unit</span><span class="p">(</span><span class="s">&#39;um&#39;</span><span class="p">)</span>
+<span class="n">xlabel</span><span class="p">,</span> <span class="n">ylabel</span><span class="p">,</span> <span class="n">zlabel</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">get_labels</span><span class="p">()</span>
+<span class="n">image</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">crop</span><span class="p">(</span><span class="n">cx0</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span> <span class="n">cx1</span><span class="o">=</span> <span class="mi">5</span><span class="p">,</span> <span class="n">cy0</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span> <span class="n">cy1</span><span class="o">=</span> <span class="mi">5</span><span class="p">)</span>
+<span class="n">image</span><span class="o">.</span><span class="n">center_min</span><span class="p">()</span>
+<span class="n">X0</span><span class="p">,</span> <span class="n">Y0</span><span class="p">,</span> <span class="n">Z0</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">get_xyz</span><span class="p">()</span>
+<span class="n">R2</span> <span class="o">=</span> <span class="n">X0</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">Y0</span><span class="o">**</span><span class="mi">2</span>
+<span class="n">r</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span> <span class="n">X0</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span> <span class="o">-</span><span class="n">X0</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span>  <span class="n">Y0</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span> <span class="o">-</span><span class="n">Y0</span><span class="o">.</span><span class="n">min</span><span class="p">())</span>
+<span class="n">k</span> <span class="o">=</span> <span class="o">.</span><span class="mi">9</span>
+<span class="n">mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">R2</span> <span class="o">&gt;</span> <span class="n">r</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="n">k</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="mf">1.</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span> <span class="p">)</span>
+<span class="n">image</span><span class="p">,</span> <span class="n">trash</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">plane_fit</span><span class="p">(</span><span class="n">mask</span> <span class="o">=</span> <span class="n">mask</span><span class="p">)</span>
+<span class="n">image</span><span class="p">,</span> <span class="n">trash</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">line_fit</span><span class="p">(</span><span class="n">mask</span> <span class="o">=</span> <span class="n">mask</span><span class="p">)</span>
+<span class="c">#image = image.crop(cx0 = 50, cx1= 50, cy0 = 50, cy1= 50)</span>
+<span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">Z</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">get_xyz</span><span class="p">()</span>
+<span class="n">rotation</span><span class="p">,</span> <span class="n">spectrum</span><span class="p">,</span> <span class="n">edges</span><span class="p">,</span> <span class="n">rtz</span> <span class="o">=</span> <span class="n">Indenter_orientation</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="n">indenter</span> <span class="o">=</span> <span class="n">Pyramidal_indenter</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">rotation</span> <span class="o">=</span> <span class="n">rotation</span><span class="p">)</span>
+<span class="n">Xi</span><span class="p">,</span> <span class="n">Yi</span><span class="p">,</span> <span class="n">Zi</span> <span class="o">=</span> <span class="n">indenter</span><span class="o">.</span><span class="n">get_xyz</span><span class="p">()</span>
+
+<span class="n">levels</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="n">dh</span> <span class="o">=</span> <span class="mf">14.</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">221</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s">&#39;Raw image&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s">&#39;equal&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="n">ylabel</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span><span class="n">X0</span><span class="p">,</span> <span class="n">Y0</span><span class="p">,</span> <span class="n">Z0</span><span class="p">,</span> <span class="n">levels</span><span class="p">)</span>
+<span class="n">cbar</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">()</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">222</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s">&#39;Masked image&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s">&#39;equal&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span><span class="n">X0</span><span class="p">,</span> <span class="n">Y0</span><span class="p">,</span> <span class="n">Z0</span> <span class="o">*</span> <span class="n">mask</span><span class="p">,</span> <span class="n">levels</span><span class="p">)</span>
+<span class="n">cbar</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">()</span>
+<span class="n">cbar</span><span class="o">.</span><span class="n">set_label</span><span class="p">(</span><span class="n">zlabel</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">223</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s">&#39;Untilted image&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s">&#39;equal&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="n">ylabel</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="n">xlabel</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">Z</span><span class="p">,</span> <span class="n">levels</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">()</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">224</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s">&#39;Indenter&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s">&#39;equal&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="n">xlabel</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span><span class="n">Xi</span><span class="p">,</span> <span class="n">Yi</span><span class="p">,</span> <span class="n">Zi</span><span class="p">,</span> <span class="n">levels</span><span class="p">)</span>
+<span class="n">cbar</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">()</span>
+<span class="n">cbar</span><span class="o">.</span><span class="n">set_label</span><span class="p">(</span><span class="n">zlabel</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>(<a class="reference external" href="./example_code/indentation/Pyramidal_indenter.py">Source code</a>, <a class="reference external" href="./example_code/indentation/Pyramidal_indenter.png">png</a>, <a class="reference external" href="./example_code/indentation/Pyramidal_indenter.hires.png">hires.png</a>, <a class="reference external" href="./example_code/indentation/Pyramidal_indenter.pdf">pdf</a>)</p>
+<div class="figure">
+<img alt="_images/Pyramidal_indenter.png" src="_images/Pyramidal_indenter.png" />
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="spym.indentation.Contact_area">
+<tt class="descclassname">spym.indentation.</tt><tt class="descname">Contact_area</tt><big>(</big><em>image</em>, <em>indenter</em><big>)</big><a class="reference internal" href="_modules/spym/indentation.html#Contact_area"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spym.indentation.Contact_area" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the contact area between an image, an indenter and at a given depth.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>image</strong> (<tt class="docutils literal"><span class="pre">spym.generic.Spm_image</span></tt> instance.) &#8211; the image to use.</li>
+<li><strong>indenter</strong> (<tt class="docutils literal"><span class="pre">spym.generic.Spm_image</span></tt> instance.) &#8211; the image to use.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">float</p>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">spym.generic</span> <span class="kn">import</span> <span class="n">Spm_image</span>
+<span class="kn">from</span> <span class="nn">spym.indentation</span> <span class="kn">import</span> <span class="n">Indenter_orientation</span><span class="p">,</span> <span class="n">Pyramidal_indenter</span><span class="p">,</span> <span class="n">Contact_area</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">cm</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+
+<span class="c">#file_name = &#39;fq_hys_10mN_4um_003_TF.txt&#39;</span>
+<span class="c">#file_name = &#39;wg_berk-0deg_n2_6um_000_TR.txt&#39;</span>
+<span class="c">#file_name = &#39;BMG8-zr60cu30al10_375c_10mN_6um_000_TR.txt&#39;</span>
+<span class="n">file_name</span> <span class="o">=</span> <span class="s">&#39;BMG6-Zr60Cu30Al10-asQ_003_TR.txt&#39;</span>
+<span class="n">image</span> <span class="o">=</span> <span class="n">Spm_image</span><span class="p">()</span>
+<span class="n">image</span><span class="o">.</span><span class="n">load_from_file</span><span class="p">(</span><span class="n">file_name</span><span class="p">)</span>
+<span class="n">image</span><span class="o">.</span><span class="n">change_z_unit</span><span class="p">(</span><span class="s">&#39;nm&#39;</span><span class="p">)</span>
+<span class="n">xlabel</span><span class="p">,</span> <span class="n">ylabel</span><span class="p">,</span> <span class="n">zlabel</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">get_labels</span><span class="p">()</span>
+<span class="n">image</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">crop</span><span class="p">(</span><span class="n">cx0</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span> <span class="n">cx1</span><span class="o">=</span> <span class="mi">5</span><span class="p">,</span> <span class="n">cy0</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span> <span class="n">cy1</span><span class="o">=</span> <span class="mi">5</span><span class="p">)</span>
+<span class="n">image</span><span class="o">.</span><span class="n">center_min</span><span class="p">()</span>
+<span class="n">X0</span><span class="p">,</span> <span class="n">Y0</span><span class="p">,</span> <span class="n">Z0</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">get_xyz</span><span class="p">()</span>
+<span class="n">R2</span> <span class="o">=</span> <span class="n">X0</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">Y0</span><span class="o">**</span><span class="mi">2</span>
+<span class="n">r</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span> <span class="n">X0</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span> <span class="o">-</span><span class="n">X0</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span>  <span class="n">Y0</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span> <span class="o">-</span><span class="n">Y0</span><span class="o">.</span><span class="n">min</span><span class="p">())</span>
+<span class="n">k</span> <span class="o">=</span> <span class="o">.</span><span class="mi">9</span>
+<span class="n">mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">R2</span> <span class="o">&gt;</span> <span class="n">r</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="n">k</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="mf">1.</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span> <span class="p">)</span>
+<span class="c">#image, trash = image.plane_fit(mask = mask)</span>
+<span class="n">image</span><span class="p">,</span> <span class="n">trash</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">line_fit</span><span class="p">(</span><span class="n">mask</span> <span class="o">=</span> <span class="n">mask</span><span class="p">)</span>
+<span class="c">#image = image.crop(cx0 = 50, cx1= 50, cy0 = 50, cy1= 50)</span>
+<span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">Z</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">get_xyz</span><span class="p">()</span>
+<span class="n">rotation</span><span class="p">,</span> <span class="n">spectrum</span><span class="p">,</span> <span class="n">edges</span><span class="p">,</span> <span class="n">rtz</span> <span class="o">=</span> <span class="n">Indenter_orientation</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="n">indenter</span> <span class="o">=</span> <span class="n">Pyramidal_indenter</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">rotation</span> <span class="o">=</span> <span class="n">rotation</span><span class="p">)</span>
+
+<span class="n">dh</span> <span class="o">=</span> <span class="mf">14.</span>    <span class="c"># Berkovic tip truncated length.</span>
+<span class="n">hmax</span> <span class="o">=</span> <span class="mf">280.</span> <span class="c"># Maximum disp from the load disp curve for BMG6.</span>
+<span class="n">hu</span> <span class="o">=</span> <span class="n">Z</span><span class="o">.</span><span class="n">min</span><span class="p">()</span> <span class="o">+</span> <span class="n">hmax</span>
+<span class="n">indenter</span><span class="o">.</span><span class="n">data</span> <span class="o">+=</span> <span class="n">Z</span><span class="o">.</span><span class="n">min</span><span class="p">()</span> <span class="o">-</span> <span class="n">dh</span> <span class="o">-</span> <span class="n">hu</span> <span class="o">/</span> <span class="mf">2.</span>
+<span class="n">Xi</span><span class="p">,</span> <span class="n">Yi</span><span class="p">,</span> <span class="n">Zi</span> <span class="o">=</span> <span class="n">indenter</span><span class="o">.</span><span class="n">get_xyz</span><span class="p">()</span>
+<span class="n">Zeq</span> <span class="o">=</span> <span class="n">Zi</span> <span class="o">-</span> <span class="n">Z</span>
+<span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">),</span> <span class="n">Ac</span> <span class="o">=</span> <span class="n">Contact_area</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">indenter</span><span class="p">)</span>
+<span class="n">A_in</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">Zeq</span> <span class="o">&lt;=</span> <span class="mf">0.</span><span class="p">,</span> <span class="n">Zeq</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)</span>
+<span class="n">A_out</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">Zeq</span> <span class="o">&gt;</span> <span class="mf">0.</span><span class="p">,</span> <span class="n">Zeq</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)</span>
+
+<span class="n">levels</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="n">dh</span> <span class="o">=</span> <span class="mf">14.</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">321</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s">&#39;Raw image&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s">&#39;equal&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="n">ylabel</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span><span class="n">X0</span><span class="p">,</span> <span class="n">Y0</span><span class="p">,</span> <span class="n">Z0</span><span class="p">,</span> <span class="n">levels</span><span class="p">)</span>
+<span class="n">cbar</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xticklabels</span><span class="p">([])</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">322</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s">&#39;Masked image&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s">&#39;equal&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span><span class="n">X0</span><span class="p">,</span> <span class="n">Y0</span><span class="p">,</span> <span class="n">Z0</span> <span class="o">*</span> <span class="n">mask</span><span class="p">,</span> <span class="n">levels</span><span class="p">)</span>
+<span class="n">cbar</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xticklabels</span><span class="p">([])</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_yticklabels</span><span class="p">([])</span>
+<span class="n">cbar</span><span class="o">.</span><span class="n">set_label</span><span class="p">(</span><span class="n">zlabel</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">323</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s">&#39;Untilted image&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s">&#39;equal&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="n">ylabel</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">Z</span><span class="p">,</span> <span class="n">levels</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xticklabels</span><span class="p">([])</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">324</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s">&#39;Indenter&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s">&#39;equal&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span><span class="n">Xi</span><span class="p">,</span> <span class="n">Yi</span><span class="p">,</span> <span class="n">Zi</span><span class="p">,</span> <span class="n">levels</span><span class="p">)</span>
+<span class="n">cbar</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xticklabels</span><span class="p">([])</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_yticklabels</span><span class="p">([])</span>
+<span class="n">cbar</span><span class="o">.</span><span class="n">set_label</span><span class="p">(</span><span class="n">zlabel</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">325</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s">&#39;Equivalent indenter&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s">&#39;equal&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="n">xlabel</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span><span class="n">Xi</span><span class="p">,</span> <span class="n">Yi</span><span class="p">,</span> <span class="n">Zeq</span><span class="p">,</span> <span class="n">levels</span><span class="p">)</span>
+<span class="n">cbar</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">()</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">326</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s">&#39;Ac = {0:1.2e}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">Ac</span><span class="p">))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s">&#39;equal&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="n">xlabel</span><span class="p">)</span>
+<span class="n">grad</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span><span class="n">Xi</span><span class="p">,</span> <span class="n">Yi</span><span class="p">,</span> <span class="n">A_in</span><span class="p">,</span><span class="n">levels</span><span class="p">,</span> <span class="n">cmap</span> <span class="o">=</span> <span class="n">cm</span><span class="o">.</span><span class="n">jet</span><span class="p">)</span>
+<span class="n">cbar</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">grad</span><span class="p">)</span>
+<span class="n">cbar</span><span class="o">.</span><span class="n">set_label</span><span class="p">(</span><span class="n">zlabel</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span><span class="n">Xi</span><span class="p">,</span> <span class="n">Yi</span><span class="p">,</span> <span class="n">A_out</span><span class="p">,</span><span class="n">levels</span><span class="p">,</span> <span class="n">cmap</span> <span class="o">=</span> <span class="n">cm</span><span class="o">.</span><span class="n">gray</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_yticklabels</span><span class="p">([])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>(<a class="reference external" href="./example_code/indentation/Contact_area.py">Source code</a>)</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="spym.indentation.Watershed">
+<tt class="descclassname">spym.indentation.</tt><tt class="descname">Watershed</tt><big>(</big><em>image</em>, <em>angle=10.0</em>, <em>size=None</em><big>)</big><a class="headerlink" href="#spym.indentation.Watershed" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the watershed of the image.</p>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Indentation</a><ul>
+<li><a class="reference internal" href="#measurements">Measurements</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="scratch.html"
+                        title="previous chapter">Scratch</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/indentation.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="scratch.html" title="Scratch"
+             >previous</a> |</li>
+        <li><a href="index.html">spym 1.0.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2012, Ludovic Charleux.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

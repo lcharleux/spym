@@ -1,0 +1,1131 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Generic &mdash; spym 1.0.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '1.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="spym 1.0.0 documentation" href="index.html" />
+    <link rel="next" title="Scratch" href="scratch.html" />
+    <link rel="prev" title="SPyM Documentation" href="index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="scratch.html" title="Scratch"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="SPyM Documentation"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">spym 1.0.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="generic">
+<h1>Generic<a class="headerlink" href="#generic" title="Permalink to this headline">¶</a></h1>
+<p>Generic SPM image processing tools.</p>
+<div class="section" id="spm-image">
+<h2>Spm_image<a class="headerlink" href="#spm-image" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt>
+<tt class="descname">Spm_image(name='SPM image', data=array([[ 0.,  1.],</tt></dt>
+<dt>
+<tt class="descname">[ 1.,  2.]]), lx=1.0, ly=1.0, xc=0.0, yc=0.0, xy_unit='m', z_unit='m', channel='topography')</tt></dt>
+<dd><p>A class to proceed Scanning Probe Microscopy images using Python.</p>
+</dd></dl>
+
+<div class="section" id="set-and-load-attributes">
+<h3>Set and load attributes<a class="headerlink" href="#set-and-load-attributes" title="Permalink to this headline">¶</a></h3>
+<dl class="method">
+<dt id="spym.generic.Spm_image.set_name">
+<tt class="descclassname">Spm_image.</tt><tt class="descname">set_name</tt><big>(</big><em>name</em><big>)</big><a class="reference internal" href="_modules/spym/generic.html#Spm_image.set_name"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spym.generic.Spm_image.set_name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the name of the image.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>name</strong> (<em>string</em>) &#8211; name of the image.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="spym.generic.Spm_image.set_channel">
+<tt class="descclassname">Spm_image.</tt><tt class="descname">set_channel</tt><big>(</big><em>channel</em><big>)</big><a class="reference internal" href="_modules/spym/generic.html#Spm_image.set_channel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spym.generic.Spm_image.set_channel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the channel description of the image.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="spym.generic.Spm_image.set_lx">
+<tt class="descclassname">Spm_image.</tt><tt class="descname">set_lx</tt><big>(</big><em>lx</em><big>)</big><a class="reference internal" href="_modules/spym/generic.html#Spm_image.set_lx"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spym.generic.Spm_image.set_lx" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the length of the image on x axis.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>lx</strong> (<em>float</em>) &#8211; length &gt; 0.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="spym.generic.Spm_image.set_ly">
+<tt class="descclassname">Spm_image.</tt><tt class="descname">set_ly</tt><big>(</big><em>ly</em><big>)</big><a class="reference internal" href="_modules/spym/generic.html#Spm_image.set_ly"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spym.generic.Spm_image.set_ly" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the length of the image on y axis.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>ly</strong> (<em>float</em>) &#8211; length &gt; 0.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="spym.generic.Spm_image.set_center">
+<tt class="descclassname">Spm_image.</tt><tt class="descname">set_center</tt><big>(</big><em>xc=0.0</em>, <em>yc=0.0</em><big>)</big><a class="reference internal" href="_modules/spym/generic.html#Spm_image.set_center"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spym.generic.Spm_image.set_center" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the center of the image.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>xc</strong> (<em>float</em>) &#8211; center of the image along x.</li>
+<li><strong>yc</strong> (<em>float</em>) &#8211; center of the image along y.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">spym.generic</span> <span class="kn">import</span> <span class="n">Spm_image</span><span class="p">,</span> <span class="n">load_from_gsf</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+
+<span class="n">file_name</span> <span class="o">=</span> <span class="s">&#39;wg_berk-0deg_n2_6um_000_TR.gsf&#39;</span>
+<span class="c">#file_name = &#39;BMG8-zr60cu30al10_375c_10mN_6um_000_TR.gsf&#39;</span>
+<span class="n">image</span> <span class="o">=</span><span class="n">load_from_gsf</span><span class="p">(</span><span class="n">file_name</span><span class="p">)</span>
+<span class="n">image</span><span class="o">.</span><span class="n">change_xy_unit</span><span class="p">(</span><span class="s">&#39;um&#39;</span><span class="p">)</span>
+<span class="n">image</span><span class="o">.</span><span class="n">change_z_unit</span><span class="p">(</span><span class="s">&#39;nm&#39;</span><span class="p">)</span>
+<span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">Z</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">get_xyz</span><span class="p">()</span>
+<span class="n">xlabel</span><span class="p">,</span> <span class="n">ylabel</span><span class="p">,</span> <span class="n">zlabel</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">get_labels</span><span class="p">()</span>
+<span class="c"># Let&#39;s change the center the coordinates on the indent</span>
+<span class="n">loc</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">get_min_position</span><span class="p">()</span>
+<span class="n">xc</span><span class="p">,</span> <span class="n">yc</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="n">loc</span><span class="p">],</span> <span class="n">Y</span><span class="p">[</span><span class="n">loc</span><span class="p">]</span>
+<span class="n">image</span><span class="o">.</span><span class="n">set_center</span><span class="p">(</span><span class="n">xc</span> <span class="o">=</span> <span class="n">xc</span><span class="p">,</span> <span class="n">yc</span> <span class="o">=</span> <span class="n">yc</span><span class="p">)</span>
+<span class="n">X1</span><span class="p">,</span> <span class="n">Y1</span><span class="p">,</span> <span class="n">Z1</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">get_xyz</span><span class="p">()</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">121</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s">&#39;equal&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">Y</span><span class="p">,</span><span class="n">Z</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="n">xlabel</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="n">ylabel</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">122</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s">&#39;equal&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span><span class="n">X1</span><span class="p">,</span><span class="n">Y1</span><span class="p">,</span><span class="n">Z1</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="n">xlabel</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="n">ylabel</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>(<a class="reference external" href="./example_code/generic/Spm_image-set_center.py">Source code</a>, <a class="reference external" href="./example_code/generic/Spm_image-set_center.png">png</a>, <a class="reference external" href="./example_code/generic/Spm_image-set_center.hires.png">hires.png</a>, <a class="reference external" href="./example_code/generic/Spm_image-set_center.pdf">pdf</a>)</p>
+<div class="figure">
+<img alt="_images/Spm_image-set_center.png" src="_images/Spm_image-set_center.png" />
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="spym.generic.Spm_image.center_min">
+<tt class="descclassname">Spm_image.</tt><tt class="descname">center_min</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/spym/generic.html#Spm_image.center_min"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spym.generic.Spm_image.center_min" title="Permalink to this definition">¶</a></dt>
+<dd><p>Centers the image on the minimum z value.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="spym.generic.Spm_image.center_max">
+<tt class="descclassname">Spm_image.</tt><tt class="descname">center_max</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/spym/generic.html#Spm_image.center_max"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spym.generic.Spm_image.center_max" title="Permalink to this definition">¶</a></dt>
+<dd><p>Centers the image on the maximum z value.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="spym.generic.Spm_image.set_xy_unit">
+<tt class="descclassname">Spm_image.</tt><tt class="descname">set_xy_unit</tt><big>(</big><em>xy_unit</em><big>)</big><a class="reference internal" href="_modules/spym/generic.html#Spm_image.set_xy_unit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spym.generic.Spm_image.set_xy_unit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets x/y unit of the image without modifying its data.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>xy_unit</strong> (<em>string</em>) &#8211; x/y unit taken in [&#8216;m&#8217;, &#8216;cm&#8217;, &#8216;mm&#8217;, &#8216;um&#8217;, &#8216;nm&#8217;]</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="spym.generic.Spm_image.set_z_unit">
+<tt class="descclassname">Spm_image.</tt><tt class="descname">set_z_unit</tt><big>(</big><em>z_unit</em><big>)</big><a class="reference internal" href="_modules/spym/generic.html#Spm_image.set_z_unit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spym.generic.Spm_image.set_z_unit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets z unit of the image without modifying its data.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>z_unit</strong> (<em>string</em>) &#8211; z unit taken in [&#8216;m&#8217;, &#8216;cm&#8217;, &#8216;mm&#8217;, &#8216;um&#8217;, &#8216;nm&#8217;, &#8216;N&#8217;, &#8216;mN&#8217;, &#8216;uN&#8217;, &#8216;nN&#8217;]</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="spym.generic.Spm_image.set_data">
+<tt class="descclassname">Spm_image.</tt><tt class="descname">set_data</tt><big>(</big><em>data</em><big>)</big><a class="reference internal" href="_modules/spym/generic.html#Spm_image.set_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spym.generic.Spm_image.set_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets data of the image.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>data</strong> (<tt class="docutils literal"><span class="pre">numpy.array</span></tt>, <tt class="docutils literal"><span class="pre">array.array</span></tt> or nested list.) &#8211; data of the image, must be a rectangular 2D array containing numbers that can be converted to float.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="spym.generic.Spm_image.load_from_file">
+<tt class="descclassname">Spm_image.</tt><tt class="descname">load_from_file</tt><big>(</big><em>file_name</em><big>)</big><a class="reference internal" href="_modules/spym/generic.html#Spm_image.load_from_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spym.generic.Spm_image.load_from_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Loads image attributes from an ASCII file using the <a class="reference download internal" href="_downloads/wg_berk-30deg_n2_6um_000_TF.dat"><tt class="xref download docutils literal"><span class="pre">following</span> <span class="pre">format</span></tt></a> (can be produced by Gwyddion using ascii export):</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>file_name</strong> (<em>string</em>) &#8211; name of the file where to read data.</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">spym.generic</span> <span class="kn">import</span> <span class="n">Spm_image</span>
+
+
+<span class="n">file_name</span> <span class="o">=</span> <span class="s">&#39;WG-air_10mN_000_TF.txt&#39;</span>
+<span class="n">image</span> <span class="o">=</span> <span class="n">Spm_image</span><span class="p">()</span>
+<span class="n">image</span><span class="o">.</span><span class="n">load_from_file</span><span class="p">(</span><span class="n">file_name</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>(<a class="reference external" href="./example_code/generic/Spm_image-load_from_file.py">Source code</a>)</p>
+</dd></dl>
+
+</div>
+<div class="section" id="manipulate-image-attributes">
+<h3>Manipulate image attributes<a class="headerlink" href="#manipulate-image-attributes" title="Permalink to this headline">¶</a></h3>
+<dl class="method">
+<dt id="spym.generic.Spm_image.change_z_unit">
+<tt class="descclassname">Spm_image.</tt><tt class="descname">change_z_unit</tt><big>(</big><em>new_unit</em><big>)</big><a class="reference internal" href="_modules/spym/generic.html#Spm_image.change_z_unit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spym.generic.Spm_image.change_z_unit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Changes the z unit to a new one and corrects the values in <tt class="docutils literal"><span class="pre">self.data</span></tt>.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="spym.generic.Spm_image.change_xy_unit">
+<tt class="descclassname">Spm_image.</tt><tt class="descname">change_xy_unit</tt><big>(</big><em>new_unit</em><big>)</big><a class="reference internal" href="_modules/spym/generic.html#Spm_image.change_xy_unit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spym.generic.Spm_image.change_xy_unit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Changes the x/y unit to a new one and corrects the <tt class="docutils literal"><span class="pre">self.lx</span></tt>, <tt class="docutils literal"><span class="pre">self.ly</span></tt>, <tt class="docutils literal"><span class="pre">self.xc</span></tt> and <tt class="docutils literal"><span class="pre">self.yc</span></tt>.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="get-image-data">
+<h3>Get image data<a class="headerlink" href="#get-image-data" title="Permalink to this headline">¶</a></h3>
+<dl class="method">
+<dt id="spym.generic.Spm_image.get_labels">
+<tt class="descclassname">Spm_image.</tt><tt class="descname">get_labels</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/spym/generic.html#Spm_image.get_labels"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spym.generic.Spm_image.get_labels" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns labels using LaTeX syntax usable in Matplotlib:</p>
+<ul class="simple">
+<li>x label</li>
+<li>y label</li>
+<li>z label</li>
+</ul>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">3 strings</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="spym.generic.Spm_image.x_samples">
+<tt class="descclassname">Spm_image.</tt><tt class="descname">x_samples</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/spym/generic.html#Spm_image.x_samples"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spym.generic.Spm_image.x_samples" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the number of samples along x axis.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">int</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="spym.generic.Spm_image.y_samples">
+<tt class="descclassname">Spm_image.</tt><tt class="descname">y_samples</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/spym/generic.html#Spm_image.y_samples"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spym.generic.Spm_image.y_samples" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the number of samples along y axis.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">int</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="spym.generic.Spm_image.get_xyz">
+<tt class="descclassname">Spm_image.</tt><tt class="descname">get_xyz</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/spym/generic.html#Spm_image.get_xyz"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spym.generic.Spm_image.get_xyz" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns useable data from the image as 3 arrays using cartesian coordinates:</p>
+<ul class="simple">
+<li>X is the values of x for each pixel.</li>
+<li>Y is the values of y for each pixel.</li>
+<li>Z is the values of z for each pixel.</li>
+</ul>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">3 <tt class="docutils literal"><span class="pre">numpy.array</span></tt></td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">spym.generic</span> <span class="kn">import</span> <span class="n">Spm_image</span><span class="p">,</span> <span class="n">load_from_gsf</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+
+<span class="c">#file_name = &#39;wg_berk-0deg_n2_6um_000_TR.gsf&#39;</span>
+<span class="n">file_name</span> <span class="o">=</span> <span class="s">&#39;BMG6-Zr60Cu30Al10-asQ_003_TR.gsf&#39;</span>
+<span class="n">image</span> <span class="o">=</span><span class="n">load_from_gsf</span><span class="p">(</span><span class="n">file_name</span><span class="p">)</span>
+<span class="n">image</span><span class="o">.</span><span class="n">change_xy_unit</span><span class="p">(</span><span class="s">&#39;um&#39;</span><span class="p">)</span>
+<span class="n">image</span><span class="o">.</span><span class="n">change_z_unit</span><span class="p">(</span><span class="s">&#39;nm&#39;</span><span class="p">)</span>
+<span class="n">image</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">crop</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">image</span><span class="o">.</span><span class="n">center_min</span><span class="p">()</span>
+<span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">Z</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">get_xyz</span><span class="p">()</span>
+<span class="n">xlabel</span><span class="p">,</span> <span class="n">ylabel</span><span class="p">,</span> <span class="n">zlabel</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">get_labels</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">grad</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">Z</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+<span class="n">cbar</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">grad</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="n">xlabel</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="n">ylabel</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s">&#39;Berkovich indent on a BMG at $10 mN$&#39;</span><span class="p">)</span>
+<span class="n">cbar</span><span class="o">.</span><span class="n">set_label</span><span class="p">(</span><span class="n">zlabel</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>(<a class="reference external" href="./example_code/generic/Spm_image-get_xyz.py">Source code</a>, <a class="reference external" href="./example_code/generic/Spm_image-get_xyz.png">png</a>, <a class="reference external" href="./example_code/generic/Spm_image-get_xyz.hires.png">hires.png</a>, <a class="reference external" href="./example_code/generic/Spm_image-get_xyz.pdf">pdf</a>)</p>
+<div class="figure">
+<img alt="_images/Spm_image-get_xyz.png" src="_images/Spm_image-get_xyz.png" />
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="spym.generic.Spm_image.get_rtz">
+<tt class="descclassname">Spm_image.</tt><tt class="descname">get_rtz</tt><big>(</big><em>nr=None</em>, <em>nt=None</em>, <em>rmax='max'</em><big>)</big><a class="reference internal" href="_modules/spym/generic.html#Spm_image.get_rtz"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spym.generic.Spm_image.get_rtz" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns useable data from the image as 3 arrays using cylindrical coordinates:</p>
+<ul class="simple">
+<li>R is the values of the radius r for each pixel.</li>
+<li>T is the values of the angle theta for each pixel.</li>
+<li>Z is the values of z for each pixel.</li>
+</ul>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">3 <tt class="docutils literal"><span class="pre">numpy.array</span></tt></td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">spym.generic</span> <span class="kn">import</span> <span class="n">Spm_image</span><span class="p">,</span> <span class="n">load_from_gsf</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">scipy.ndimage</span> <span class="kn">as</span> <span class="nn">nd</span>
+<span class="n">file_name</span> <span class="o">=</span> <span class="s">&#39;wg_berk-0deg_n2_6um_000_TR.gsf&#39;</span>
+<span class="c">#file_name = &#39;BMG8-zr60cu30al10_375c_10mN_6um_000_TR.gsf&#39;</span>
+<span class="n">image</span> <span class="o">=</span><span class="n">load_from_gsf</span><span class="p">(</span><span class="n">file_name</span><span class="p">)</span>
+<span class="n">image</span><span class="o">.</span><span class="n">change_xy_unit</span><span class="p">(</span><span class="s">&#39;um&#39;</span><span class="p">)</span>
+<span class="n">image</span><span class="o">.</span><span class="n">change_z_unit</span><span class="p">(</span><span class="s">&#39;nm&#39;</span><span class="p">)</span>
+<span class="n">r</span> <span class="o">=</span> <span class="mi">2</span> <span class="c"># Radius of the band in um</span>
+<span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">Z</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">get_xyz</span><span class="p">()</span>
+<span class="n">xi</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="n">image</span><span class="o">.</span><span class="n">get_min_position</span><span class="p">()]</span>
+<span class="n">mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">((</span><span class="n">X</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="n">xi</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">&gt;</span> <span class="n">r</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span> <span class="p">)</span>
+<span class="n">image</span><span class="p">,</span> <span class="n">residual</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">line_fit</span><span class="p">(</span><span class="n">mask</span> <span class="o">=</span> <span class="n">mask</span><span class="p">)</span>
+<span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">Z</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">get_xyz</span><span class="p">()</span>
+<span class="n">loc</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">get_min_position</span><span class="p">()</span>
+<span class="n">xc</span><span class="p">,</span> <span class="n">yc</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="n">loc</span><span class="p">],</span> <span class="n">Y</span><span class="p">[</span><span class="n">loc</span><span class="p">]</span>
+<span class="n">image</span><span class="o">.</span><span class="n">set_center</span><span class="p">(</span><span class="n">xc</span> <span class="o">=</span> <span class="n">xc</span><span class="p">,</span> <span class="n">yc</span> <span class="o">=</span> <span class="n">yc</span><span class="p">)</span>
+<span class="n">R</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">Z</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">get_rtz</span><span class="p">(</span><span class="n">rmax</span> <span class="o">=</span> <span class="s">&#39;min&#39;</span><span class="p">)</span>
+<span class="n">xlabel</span><span class="p">,</span> <span class="n">ylabel</span><span class="p">,</span> <span class="n">zlabel</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">get_labels</span><span class="p">()</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">,</span> <span class="n">polar</span> <span class="o">=</span> <span class="bp">True</span><span class="p">)</span>
+<span class="n">grad</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span><span class="n">T</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="mf">8.</span><span class="p">),</span> <span class="n">R</span><span class="p">,</span> <span class="n">Z</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span>
+<span class="n">cbar</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">grad</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">yticks</span><span class="p">([</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">1.</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">])</span> <span class="c"># Radius</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.</span><span class="p">,</span> <span class="mf">2.</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="n">endpoint</span> <span class="o">=</span> <span class="bp">False</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="n">ylabel</span><span class="p">)</span>
+<span class="n">cbar</span><span class="o">.</span><span class="n">set_label</span><span class="p">(</span><span class="n">zlabel</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>(<a class="reference external" href="./example_code/generic/Spm_image-get_rtz.py">Source code</a>, <a class="reference external" href="./example_code/generic/Spm_image-get_rtz.png">png</a>, <a class="reference external" href="./example_code/generic/Spm_image-get_rtz.hires.png">hires.png</a>, <a class="reference external" href="./example_code/generic/Spm_image-get_rtz.pdf">pdf</a>)</p>
+<div class="figure">
+<img alt="_images/Spm_image-get_rtz.png" src="_images/Spm_image-get_rtz.png" />
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="spym.generic.Spm_image.get_xlim">
+<tt class="descclassname">Spm_image.</tt><tt class="descname">get_xlim</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/spym/generic.html#Spm_image.get_xlim"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spym.generic.Spm_image.get_xlim" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the x limits of the image.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="spym.generic.Spm_image.get_ylim">
+<tt class="descclassname">Spm_image.</tt><tt class="descname">get_ylim</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/spym/generic.html#Spm_image.get_ylim"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spym.generic.Spm_image.get_ylim" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the y limits of the image.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="spym.generic.Spm_image.get_max_position">
+<tt class="descclassname">Spm_image.</tt><tt class="descname">get_max_position</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/spym/generic.html#Spm_image.get_max_position"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spym.generic.Spm_image.get_max_position" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the position in self.data of the maximum of self.data.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="spym.generic.Spm_image.get_min_position">
+<tt class="descclassname">Spm_image.</tt><tt class="descname">get_min_position</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/spym/generic.html#Spm_image.get_min_position"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spym.generic.Spm_image.get_min_position" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the position in self.data of the minimum of self.data.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="spym.generic.Spm_image.copy">
+<tt class="descclassname">Spm_image.</tt><tt class="descname">copy</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/spym/generic.html#Spm_image.copy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spym.generic.Spm_image.copy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a deepcopy of the image.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><tt class="docutils literal"><span class="pre">spym.Spm_image</span></tt> instance.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="spym.generic.Spm_image.pixel_area">
+<tt class="descclassname">Spm_image.</tt><tt class="descname">pixel_area</tt><big>(</big><big>)</big><a class="headerlink" href="#spym.generic.Spm_image.pixel_area" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the pixel area as xy_unit**2.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="artefact-and-tilt-corrections">
+<h3>Artefact and tilt corrections<a class="headerlink" href="#artefact-and-tilt-corrections" title="Permalink to this headline">¶</a></h3>
+<dl class="method">
+<dt id="spym.generic.Spm_image.plane_fit">
+<tt class="descclassname">Spm_image.</tt><tt class="descname">plane_fit</tt><big>(</big><em>mask=None</em><big>)</big><a class="reference internal" href="_modules/spym/generic.html#Spm_image.plane_fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spym.generic.Spm_image.plane_fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Performs a plane fit on the image and returns the image minus the the plane and the plane itself <tt class="docutils literal"><span class="pre">spym.generic.spm_image</span></tt> instances.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>mask</strong> (None or <tt class="docutils literal"><span class="pre">numpy.array</span></tt>) &#8211; None if no mask or a <tt class="docutils literal"><span class="pre">numpy.array</span></tt> instance containing np.nan where the data has to be occulted.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">2 <tt class="docutils literal"><span class="pre">spym.generic.spm_image</span></tt> instance</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">spym.generic</span> <span class="kn">import</span> <span class="n">Spm_image</span><span class="p">,</span> <span class="n">load_from_gsf</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+
+<span class="c">#file_name = &#39;wg_berk-0deg_n2_6um_000_TR.gsf&#39;</span>
+<span class="n">file_name</span> <span class="o">=</span> <span class="s">&#39;BMG8-zr60cu30al10_375c_10mN_6um_000_TR.sf&#39;</span>
+<span class="n">file_name</span> <span class="o">=</span> <span class="s">&#39;BMG6-Zr60Cu30Al10-asQ_003_TR.gsf&#39;</span>
+<span class="n">image</span> <span class="o">=</span><span class="n">load_from_gsf</span><span class="p">(</span><span class="n">file_name</span><span class="p">)</span>
+<span class="n">image</span><span class="o">.</span><span class="n">change_xy_unit</span><span class="p">(</span><span class="s">&#39;um&#39;</span><span class="p">)</span>
+<span class="n">image</span><span class="o">.</span><span class="n">change_z_unit</span><span class="p">(</span><span class="s">&#39;nm&#39;</span><span class="p">)</span>
+<span class="n">image</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">crop</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span> <span class="c"># Removing bad pixels on the perimeter of the image</span>
+<span class="n">image</span><span class="o">.</span><span class="n">center_min</span><span class="p">()</span>
+<span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">Z</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">get_xyz</span><span class="p">()</span>
+<span class="n">levels</span> <span class="o">=</span> <span class="mi">20</span>
+<span class="n">xlabel</span><span class="p">,</span> <span class="n">ylabel</span><span class="p">,</span> <span class="n">zlabel</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">get_labels</span><span class="p">()</span>
+<span class="c"># Let&#39;s try it with no mask</span>
+<span class="n">image2</span><span class="p">,</span> <span class="n">residual2</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">plane_fit</span><span class="p">()</span>
+<span class="n">X2</span><span class="p">,</span> <span class="n">Y2</span><span class="p">,</span> <span class="n">Z2</span> <span class="o">=</span> <span class="n">image2</span><span class="o">.</span><span class="n">get_xyz</span><span class="p">()</span>
+<span class="n">Xr2</span><span class="p">,</span> <span class="n">Yr2</span><span class="p">,</span> <span class="n">Zr2</span> <span class="o">=</span> <span class="n">residual2</span><span class="o">.</span><span class="n">get_xyz</span><span class="p">()</span>
+<span class="c"># Here we want to remove a circle around the indent</span>
+<span class="n">r</span> <span class="o">=</span> <span class="mi">2</span> <span class="c"># Radius of the circle in um</span>
+<span class="n">R2</span> <span class="o">=</span> <span class="n">X</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">Y</span><span class="o">**</span><span class="mi">2</span>
+<span class="n">mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">R2</span> <span class="o">&gt;</span> <span class="n">r</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="n">Z</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span> <span class="p">)</span>
+<span class="n">image3</span><span class="p">,</span> <span class="n">residual3</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">plane_fit</span><span class="p">(</span><span class="n">mask</span> <span class="o">=</span> <span class="n">mask</span><span class="p">)</span>
+<span class="n">X3</span><span class="p">,</span> <span class="n">Y3</span><span class="p">,</span> <span class="n">Z3</span> <span class="o">=</span> <span class="n">image3</span><span class="o">.</span><span class="n">get_xyz</span><span class="p">()</span>
+<span class="n">Xr3</span><span class="p">,</span> <span class="n">Yr3</span><span class="p">,</span> <span class="n">Zr3</span> <span class="o">=</span> <span class="n">residual3</span><span class="o">.</span><span class="n">get_xyz</span><span class="p">()</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">clf</span><span class="p">()</span>
+
+
+<span class="c"># Original image</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">331</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s">&#39;equal&#39;</span><span class="p">)</span>
+<span class="n">grad</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">Z</span><span class="p">,</span> <span class="n">levels</span><span class="p">)</span>
+<span class="n">cbar</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">grad</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">([])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">yticks</span><span class="p">([])</span>
+<span class="n">cbar</span><span class="o">.</span><span class="n">set_label</span><span class="p">(</span><span class="n">zlabel</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s">&#39;Original image&#39;</span><span class="p">)</span>
+<span class="c"># Plane fit without mask</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">334</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s">&#39;equal&#39;</span><span class="p">)</span>
+<span class="n">grad</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">Z</span><span class="p">,</span> <span class="n">levels</span><span class="p">)</span>
+<span class="n">cbar</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">grad</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">([])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">yticks</span><span class="p">([])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s">&#39;No mask&#39;</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">335</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s">&#39;equal&#39;</span><span class="p">)</span>
+<span class="n">grad</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span><span class="n">X2</span><span class="p">,</span> <span class="n">Y2</span><span class="p">,</span> <span class="n">Z2</span><span class="p">,</span> <span class="n">levels</span><span class="p">)</span>
+<span class="n">cbar</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">grad</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">([])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">yticks</span><span class="p">([])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s">&#39;Plane fit wo. mask&#39;</span><span class="p">)</span>
+<span class="n">cbar</span><span class="o">.</span><span class="n">set_label</span><span class="p">(</span><span class="n">zlabel</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">336</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s">&#39;equal&#39;</span><span class="p">)</span>
+<span class="n">grad</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span><span class="n">Xr2</span><span class="p">,</span> <span class="n">Yr2</span><span class="p">,</span> <span class="n">Zr2</span><span class="p">,</span> <span class="n">levels</span><span class="p">)</span>
+<span class="n">cbar</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">grad</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">([])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">yticks</span><span class="p">([])</span>
+<span class="n">cbar</span><span class="o">.</span><span class="n">set_label</span><span class="p">(</span><span class="n">zlabel</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s">&#39;Residual plane&#39;</span><span class="p">)</span>
+<span class="n">cbar</span><span class="o">.</span><span class="n">set_label</span><span class="p">(</span><span class="n">zlabel</span><span class="p">)</span>
+<span class="c"># Plane fit with mask</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">337</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s">&#39;equal&#39;</span><span class="p">)</span>
+<span class="n">grad</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">mask</span><span class="p">,</span> <span class="n">levels</span><span class="p">)</span>
+<span class="n">cbar</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">grad</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">([])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">yticks</span><span class="p">([])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s">&#39;Masked image&#39;</span><span class="p">)</span>
+<span class="n">cbar</span><span class="o">.</span><span class="n">set_label</span><span class="p">(</span><span class="n">zlabel</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">338</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s">&#39;equal&#39;</span><span class="p">)</span>
+<span class="n">grad</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span><span class="n">X3</span><span class="p">,</span> <span class="n">Y3</span><span class="p">,</span> <span class="n">Z3</span><span class="p">,</span> <span class="n">levels</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">([])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">yticks</span><span class="p">([])</span>
+<span class="n">cbar</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">grad</span><span class="p">)</span>
+<span class="n">cbar</span><span class="o">.</span><span class="n">set_label</span><span class="p">(</span><span class="n">zlabel</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s">&#39;Plane fit w. mask&#39;</span><span class="p">)</span>
+<span class="n">cbar</span><span class="o">.</span><span class="n">set_label</span><span class="p">(</span><span class="n">zlabel</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">339</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s">&#39;equal&#39;</span><span class="p">)</span>
+<span class="n">grad</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span><span class="n">Xr3</span><span class="p">,</span> <span class="n">Yr3</span><span class="p">,</span> <span class="n">Zr3</span><span class="p">,</span> <span class="n">levels</span><span class="p">)</span>
+<span class="n">cbar</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">grad</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">([])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">yticks</span><span class="p">([])</span>
+<span class="n">cbar</span><span class="o">.</span><span class="n">set_label</span><span class="p">(</span><span class="n">zlabel</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s">&#39;Residual plane&#39;</span><span class="p">)</span>
+<span class="n">cbar</span><span class="o">.</span><span class="n">set_label</span><span class="p">(</span><span class="n">zlabel</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>(<a class="reference external" href="./example_code/generic/Spm_image-plane_fit.py">Source code</a>, <a class="reference external" href="./example_code/generic/Spm_image-plane_fit.png">png</a>, <a class="reference external" href="./example_code/generic/Spm_image-plane_fit.hires.png">hires.png</a>, <a class="reference external" href="./example_code/generic/Spm_image-plane_fit.pdf">pdf</a>)</p>
+<div class="figure">
+<img alt="_images/Spm_image-plane_fit.png" src="_images/Spm_image-plane_fit.png" />
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="spym.generic.Spm_image.line_fit">
+<tt class="descclassname">Spm_image.</tt><tt class="descname">line_fit</tt><big>(</big><em>mask=False</em>, <em>direction='x'</em><big>)</big><a class="reference internal" href="_modules/spym/generic.html#Spm_image.line_fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spym.generic.Spm_image.line_fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Performs a line fit on every line in a given scan direction.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>mask</strong> (<tt class="docutils literal"><span class="pre">numpy.array</span></tt>) &#8211; array containing <tt class="docutils literal"><span class="pre">numpy.nan</span></tt> where the data is to be occulted.</li>
+<li><strong>direction</strong> (<em>string</em>) &#8211; &#8216;x&#8217; for fits/scans along x axis and &#8220;y&#8221; for y axis.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">2 <tt class="docutils literal"><span class="pre">spym.generic.spm_image</span></tt> instance</p>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">spym.generic</span> <span class="kn">import</span> <span class="n">Spm_image</span><span class="p">,</span> <span class="n">load_from_gsf</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+
+<span class="n">file_name</span> <span class="o">=</span> <span class="s">&#39;wg_berk-0deg_n2_6um_000_TR.gsf&#39;</span>
+<span class="c">#file_name = &#39;BMG8-zr60cu30al10_375c_10mN_6um_000_TR.gsf&#39;</span>
+<span class="n">image</span> <span class="o">=</span> <span class="n">load_from_gsf</span><span class="p">(</span><span class="n">file_name</span><span class="p">)</span>
+<span class="n">image</span><span class="o">.</span><span class="n">change_z_unit</span><span class="p">(</span><span class="s">&#39;nm&#39;</span><span class="p">)</span>
+<span class="n">image</span><span class="o">.</span><span class="n">change_xy_unit</span><span class="p">(</span><span class="s">&#39;um&#39;</span><span class="p">)</span>
+<span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">Z</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">get_xyz</span><span class="p">()</span>
+<span class="n">levels</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="n">xlabel</span><span class="p">,</span> <span class="n">ylabel</span><span class="p">,</span> <span class="n">zlabel</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">get_labels</span><span class="p">()</span>
+<span class="c"># Let&#39;s try it with no mask</span>
+<span class="n">image2</span><span class="p">,</span> <span class="n">residual2</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">line_fit</span><span class="p">()</span>
+<span class="n">X2</span><span class="p">,</span> <span class="n">Y2</span><span class="p">,</span> <span class="n">Z2</span> <span class="o">=</span> <span class="n">image2</span><span class="o">.</span><span class="n">get_xyz</span><span class="p">()</span>
+<span class="n">Xr2</span><span class="p">,</span> <span class="n">Yr2</span><span class="p">,</span> <span class="n">Zr2</span> <span class="o">=</span> <span class="n">residual2</span><span class="o">.</span><span class="n">get_xyz</span><span class="p">()</span>
+<span class="c"># Here we want to remove a disk around the indent</span>
+<span class="n">r</span> <span class="o">=</span> <span class="mi">2</span> <span class="c"># Radius of the disk in um</span>
+<span class="n">xi</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="n">image</span><span class="o">.</span><span class="n">get_min_position</span><span class="p">()]</span>
+<span class="n">yi</span> <span class="o">=</span> <span class="n">Y</span><span class="p">[</span><span class="n">image</span><span class="o">.</span><span class="n">get_min_position</span><span class="p">()]</span>
+<span class="n">mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">((</span><span class="n">X</span><span class="o">-</span><span class="n">xi</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="n">Y</span><span class="o">-</span><span class="n">yi</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">&gt;</span> <span class="n">r</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span> <span class="p">)</span>
+<span class="n">image3</span><span class="p">,</span> <span class="n">residual3</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">line_fit</span><span class="p">(</span><span class="n">mask</span> <span class="o">=</span> <span class="n">mask</span><span class="p">)</span>
+<span class="n">X3</span><span class="p">,</span> <span class="n">Y3</span><span class="p">,</span> <span class="n">Z3</span> <span class="o">=</span> <span class="n">image3</span><span class="o">.</span><span class="n">get_xyz</span><span class="p">()</span>
+<span class="n">Xr3</span><span class="p">,</span> <span class="n">Yr3</span><span class="p">,</span> <span class="n">Zr3</span> <span class="o">=</span> <span class="n">residual3</span><span class="o">.</span><span class="n">get_xyz</span><span class="p">()</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">clf</span><span class="p">()</span>
+
+
+<span class="c"># Original image</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">331</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s">&#39;equal&#39;</span><span class="p">)</span>
+<span class="n">grad</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">Z</span><span class="p">,</span> <span class="n">levels</span><span class="p">)</span>
+<span class="n">cbar</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">grad</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">([])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">yticks</span><span class="p">([])</span>
+<span class="n">cbar</span><span class="o">.</span><span class="n">set_label</span><span class="p">(</span><span class="n">zlabel</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s">&#39;Original image&#39;</span><span class="p">)</span>
+<span class="c"># Plane fit without mask</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">334</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s">&#39;equal&#39;</span><span class="p">)</span>
+<span class="n">grad</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">Z</span><span class="p">,</span> <span class="n">levels</span><span class="p">)</span>
+<span class="n">cbar</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">grad</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">([])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">yticks</span><span class="p">([])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s">&#39;No mask&#39;</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">335</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s">&#39;equal&#39;</span><span class="p">)</span>
+<span class="n">grad</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span><span class="n">X2</span><span class="p">,</span> <span class="n">Y2</span><span class="p">,</span> <span class="n">Z2</span><span class="p">,</span> <span class="n">levels</span><span class="p">)</span>
+<span class="n">cbar</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">grad</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">([])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">yticks</span><span class="p">([])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s">&#39;Plane fit wo. mask&#39;</span><span class="p">)</span>
+<span class="n">cbar</span><span class="o">.</span><span class="n">set_label</span><span class="p">(</span><span class="n">zlabel</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">336</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s">&#39;equal&#39;</span><span class="p">)</span>
+<span class="n">grad</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span><span class="n">Xr2</span><span class="p">,</span> <span class="n">Yr2</span><span class="p">,</span> <span class="n">Zr2</span><span class="p">,</span> <span class="n">levels</span><span class="p">)</span>
+<span class="n">cbar</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">grad</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">([])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">yticks</span><span class="p">([])</span>
+<span class="n">cbar</span><span class="o">.</span><span class="n">set_label</span><span class="p">(</span><span class="n">zlabel</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s">&#39;Residual image&#39;</span><span class="p">)</span>
+<span class="n">cbar</span><span class="o">.</span><span class="n">set_label</span><span class="p">(</span><span class="n">zlabel</span><span class="p">)</span>
+<span class="c"># Plane fit with mask</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">337</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s">&#39;equal&#39;</span><span class="p">)</span>
+<span class="n">grad</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">mask</span> <span class="o">+</span> <span class="n">Z</span><span class="p">,</span> <span class="n">levels</span><span class="p">)</span>
+<span class="n">cbar</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">grad</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">([])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">yticks</span><span class="p">([])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s">&#39;Masked image&#39;</span><span class="p">)</span>
+<span class="n">cbar</span><span class="o">.</span><span class="n">set_label</span><span class="p">(</span><span class="n">zlabel</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">338</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s">&#39;equal&#39;</span><span class="p">)</span>
+<span class="n">grad</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span><span class="n">X3</span><span class="p">,</span> <span class="n">Y3</span><span class="p">,</span> <span class="n">Z3</span><span class="p">,</span> <span class="n">levels</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">([])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">yticks</span><span class="p">([])</span>
+<span class="n">cbar</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">grad</span><span class="p">)</span>
+<span class="n">cbar</span><span class="o">.</span><span class="n">set_label</span><span class="p">(</span><span class="n">zlabel</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s">&#39;Plane fit w. mask&#39;</span><span class="p">)</span>
+<span class="n">cbar</span><span class="o">.</span><span class="n">set_label</span><span class="p">(</span><span class="n">zlabel</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">339</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s">&#39;equal&#39;</span><span class="p">)</span>
+<span class="n">grad</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span><span class="n">Xr3</span><span class="p">,</span> <span class="n">Yr3</span><span class="p">,</span> <span class="n">Zr3</span><span class="p">,</span> <span class="n">levels</span><span class="p">)</span>
+<span class="n">cbar</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">grad</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">([])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">yticks</span><span class="p">([])</span>
+<span class="n">cbar</span><span class="o">.</span><span class="n">set_label</span><span class="p">(</span><span class="n">zlabel</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s">&#39;Residual image&#39;</span><span class="p">)</span>
+<span class="n">cbar</span><span class="o">.</span><span class="n">set_label</span><span class="p">(</span><span class="n">zlabel</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>(<a class="reference external" href="./example_code/generic/Spm_image-line_fit.py">Source code</a>, <a class="reference external" href="./example_code/generic/Spm_image-line_fit.png">png</a>, <a class="reference external" href="./example_code/generic/Spm_image-line_fit.hires.png">hires.png</a>, <a class="reference external" href="./example_code/generic/Spm_image-line_fit.pdf">pdf</a>)</p>
+<div class="figure">
+<img alt="_images/Spm_image-line_fit.png" src="_images/Spm_image-line_fit.png" />
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="image-modification">
+<h3>Image modification<a class="headerlink" href="#image-modification" title="Permalink to this headline">¶</a></h3>
+<dl class="method">
+<dt id="spym.generic.Spm_image.rotate">
+<tt class="descclassname">Spm_image.</tt><tt class="descname">rotate</tt><big>(</big><em>angle</em>, <em>tx=0.0</em>, <em>ty=0.0</em>, <em>method='linear'</em><big>)</big><a class="reference internal" href="_modules/spym/generic.html#Spm_image.rotate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spym.generic.Spm_image.rotate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Applies a combination of translation and rotation to the image in the xy plane using user selected method. The rotation is centered on the center of the image defined by the <tt class="docutils literal"><span class="pre">set_center</span></tt> method. This method is based on <tt class="docutils literal"><span class="pre">scipy.interpolate.griddata</span></tt>. The returned image has the same size as the original image. As a consequence, corners can be lost in the process and masked zones can appear as well. Translation is applied before the rotation.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>angle</strong> (<em>float</em>) &#8211; angle or rotation in degrees.</li>
+<li><strong>tx</strong> (<em>float</em>) &#8211; tranlation along x axis.</li>
+<li><strong>ty</strong> (<em>float</em>) &#8211; tranlation along y axis.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><tt class="docutils literal"><span class="pre">spym.generic.spm_image</span></tt> instance</p>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">spym.generic</span> <span class="kn">import</span> <span class="n">Spm_image</span><span class="p">,</span> <span class="n">load_from_gsf</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">matplotlib</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="n">matplotlib</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s">&#39;contour.negative_linestyle&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;solid&#39;</span>
+
+<span class="c">#file_name = &#39;wg_berk-0deg_n2_6um_000_TR.gsf&#39;</span>
+<span class="n">file_name</span> <span class="o">=</span> <span class="s">&#39;BMG8-zr60cu30al10_375c_10mN_6um_000_TR.gsf&#39;</span>
+<span class="n">image</span> <span class="o">=</span> <span class="n">load_from_gsf</span><span class="p">(</span><span class="n">file_name</span><span class="p">)</span> <span class="c"># Load the image</span>
+<span class="n">image</span><span class="o">.</span><span class="n">change_xy_unit</span><span class="p">(</span><span class="s">&#39;um&#39;</span><span class="p">)</span>
+<span class="n">image</span><span class="o">.</span><span class="n">change_z_unit</span><span class="p">(</span><span class="s">&#39;nm&#39;</span><span class="p">)</span>
+<span class="n">xlabel</span><span class="p">,</span> <span class="n">ylabel</span><span class="p">,</span> <span class="n">zlabel</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">get_labels</span><span class="p">()</span>
+<span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">Z</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">get_xyz</span><span class="p">()</span>
+<span class="n">loc</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">get_min_position</span><span class="p">()</span>
+<span class="n">xc</span><span class="p">,</span> <span class="n">yc</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="n">loc</span><span class="p">],</span> <span class="n">Y</span><span class="p">[</span><span class="n">loc</span><span class="p">]</span>
+<span class="n">image</span><span class="o">.</span><span class="n">set_center</span><span class="p">(</span><span class="n">xc</span> <span class="o">=</span> <span class="n">xc</span><span class="p">,</span> <span class="n">yc</span> <span class="o">=</span> <span class="n">yc</span><span class="p">)</span>
+<span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">Z</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">get_xyz</span><span class="p">()</span>
+<span class="n">image</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">rotate</span><span class="p">(</span><span class="n">angle</span> <span class="o">=</span> <span class="mf">30.</span><span class="p">,</span> <span class="n">tx</span> <span class="o">=</span> <span class="mf">0.</span><span class="p">,</span> <span class="n">ty</span> <span class="o">=</span> <span class="mf">0.</span><span class="p">)</span>
+<span class="n">levels</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">Xr</span><span class="p">,</span> <span class="n">Yr</span><span class="p">,</span> <span class="n">Zr</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">get_xyz</span><span class="p">()</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">clf</span><span class="p">()</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">121</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s">&#39;equal&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s">&#39;Original&#39;</span><span class="p">)</span>
+<span class="n">grad</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">Y</span><span class="p">,</span><span class="n">Z</span><span class="p">,</span> <span class="n">levels</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">contour</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">Y</span><span class="p">,</span><span class="n">Z</span><span class="p">,</span> <span class="n">levels</span><span class="p">,</span> <span class="n">colors</span> <span class="o">=</span> <span class="s">&#39;black&#39;</span><span class="p">)</span>
+<span class="n">cbar</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">grad</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="n">xlabel</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="n">ylabel</span><span class="p">)</span>
+<span class="n">cbar</span><span class="o">.</span><span class="n">set_label</span><span class="p">(</span><span class="n">zlabel</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">122</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s">&#39;equal&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s">&#39;Rotated&#39;</span><span class="p">)</span>
+<span class="n">grad</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span><span class="n">Xr</span><span class="p">,</span><span class="n">Yr</span><span class="p">,</span><span class="n">Zr</span><span class="p">,</span> <span class="n">levels</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">contour</span><span class="p">(</span><span class="n">Xr</span><span class="p">,</span><span class="n">Yr</span><span class="p">,</span><span class="n">Zr</span><span class="p">,</span> <span class="n">levels</span><span class="p">,</span> <span class="n">colors</span> <span class="o">=</span> <span class="s">&#39;black&#39;</span><span class="p">)</span>
+<span class="n">cbar</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">grad</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="n">xlabel</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="n">ylabel</span><span class="p">)</span>
+<span class="n">cbar</span><span class="o">.</span><span class="n">set_label</span><span class="p">(</span><span class="n">zlabel</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>(<a class="reference external" href="./example_code/generic/Spm_image-rotate.py">Source code</a>, <a class="reference external" href="./example_code/generic/Spm_image-rotate.png">png</a>, <a class="reference external" href="./example_code/generic/Spm_image-rotate.hires.png">hires.png</a>, <a class="reference external" href="./example_code/generic/Spm_image-rotate.pdf">pdf</a>)</p>
+<div class="figure">
+<img alt="_images/Spm_image-rotate.png" src="_images/Spm_image-rotate.png" />
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="spym.generic.Spm_image.translate">
+<tt class="descclassname">Spm_image.</tt><tt class="descname">translate</tt><big>(</big><em>nx</em>, <em>ny</em><big>)</big><a class="reference internal" href="_modules/spym/generic.html#Spm_image.translate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spym.generic.Spm_image.translate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Translates the image by a number of pixels on x and y axis. This methods differs from rotate because it does not involve interpolation and so it is faster but does not allow all translation (just integer number of pixels).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>nx</strong> (<em>signed int</em>) &#8211; number of pixels along x.</li>
+<li><strong>ny</strong> (<em>signed int</em>) &#8211; number of pixels along y.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><tt class="docutils literal"><span class="pre">spym.generic.spm_image</span></tt> instance</p>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">spym.generic</span> <span class="kn">import</span> <span class="n">Spm_image</span><span class="p">,</span> <span class="n">load_from_gsf</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">matplotlib</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="n">matplotlib</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s">&#39;contour.negative_linestyle&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;solid&#39;</span>
+
+<span class="c">#file_name = &#39;wg_berk-0deg_n2_6um_000_TR.gsf&#39;</span>
+<span class="n">file_name</span> <span class="o">=</span> <span class="s">&#39;BMG8-zr60cu30al10_375c_10mN_6um_000_TR.gsf&#39;</span>
+<span class="n">image</span> <span class="o">=</span><span class="n">load_from_gsf</span><span class="p">(</span><span class="n">file_name</span><span class="p">)</span>
+<span class="n">image</span><span class="o">.</span><span class="n">change_xy_unit</span><span class="p">(</span><span class="s">&#39;um&#39;</span><span class="p">)</span>
+<span class="n">image</span><span class="o">.</span><span class="n">change_z_unit</span><span class="p">(</span><span class="s">&#39;nm&#39;</span><span class="p">)</span>
+<span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">Z</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">get_xyz</span><span class="p">()</span>
+<span class="n">xlabel</span><span class="p">,</span> <span class="n">ylabel</span><span class="p">,</span> <span class="n">zlabel</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">get_labels</span><span class="p">()</span>
+<span class="c"># Translation</span>
+<span class="n">image</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span><span class="n">nx</span> <span class="o">=</span> <span class="mi">30</span><span class="p">,</span> <span class="n">ny</span> <span class="o">=</span> <span class="o">-</span><span class="mi">50</span><span class="p">)</span>
+<span class="n">levels</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">Xr</span><span class="p">,</span> <span class="n">Yr</span><span class="p">,</span> <span class="n">Zr</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">get_xyz</span><span class="p">()</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">clf</span><span class="p">()</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">121</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s">&#39;equal&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s">&#39;Original&#39;</span><span class="p">)</span>
+<span class="n">grad</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">Y</span><span class="p">,</span><span class="n">Z</span><span class="p">,</span> <span class="n">levels</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">contour</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">Y</span><span class="p">,</span><span class="n">Z</span><span class="p">,</span> <span class="n">levels</span><span class="p">,</span> <span class="n">colors</span> <span class="o">=</span> <span class="s">&#39;black&#39;</span><span class="p">)</span>
+<span class="n">cbar</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">grad</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="n">xlabel</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="n">ylabel</span><span class="p">)</span>
+<span class="n">cbar</span><span class="o">.</span><span class="n">set_label</span><span class="p">(</span><span class="n">zlabel</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">122</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s">&#39;equal&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s">&#39;Translate&#39;</span><span class="p">)</span>
+<span class="n">grad</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span><span class="n">Xr</span><span class="p">,</span><span class="n">Yr</span><span class="p">,</span><span class="n">Zr</span><span class="p">,</span> <span class="n">levels</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">contour</span><span class="p">(</span><span class="n">Xr</span><span class="p">,</span><span class="n">Yr</span><span class="p">,</span><span class="n">Zr</span><span class="p">,</span> <span class="n">levels</span><span class="p">,</span> <span class="n">colors</span> <span class="o">=</span> <span class="s">&#39;black&#39;</span><span class="p">)</span>
+<span class="n">cbar</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">grad</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="n">xlabel</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="n">ylabel</span><span class="p">)</span>
+<span class="n">cbar</span><span class="o">.</span><span class="n">set_label</span><span class="p">(</span><span class="n">zlabel</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>(<a class="reference external" href="./example_code/generic/Spm_image-translate.py">Source code</a>, <a class="reference external" href="./example_code/generic/Spm_image-translate.png">png</a>, <a class="reference external" href="./example_code/generic/Spm_image-translate.hires.png">hires.png</a>, <a class="reference external" href="./example_code/generic/Spm_image-translate.pdf">pdf</a>)</p>
+<div class="figure">
+<img alt="_images/Spm_image-translate.png" src="_images/Spm_image-translate.png" />
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="spym.generic.Spm_image.interpolate">
+<tt class="descclassname">Spm_image.</tt><tt class="descname">interpolate</tt><big>(</big><em>X</em>, <em>Y</em>, <em>method='linear'</em><big>)</big><a class="reference internal" href="_modules/spym/generic.html#Spm_image.interpolate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spym.generic.Spm_image.interpolate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Interpolates data on any points arranged in any way (single points, line/1D arrays, zone/2D arrays). Input is just 2 arrays of any identical shape representing x and y coordinates of the points where data has to be interpolated.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>X</strong> (<tt class="docutils literal"><span class="pre">numpy.array</span></tt>) &#8211; array of x positions</li>
+<li><strong>Y</strong> (<tt class="docutils literal"><span class="pre">numpy.array</span></tt>) &#8211; array of Y positions</li>
+<li><strong>method</strong> (<em>string</em>) &#8211; method of interpolation used in <tt class="docutils literal"><span class="pre">scipy.interpolate.griddata</span></tt></li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">spym.generic</span> <span class="kn">import</span> <span class="n">Spm_image</span><span class="p">,</span> <span class="n">load_from_gsf</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+
+<span class="n">file_name</span> <span class="o">=</span> <span class="s">&#39;wg_berk-0deg_n2_6um_000_TR.gsf&#39;</span>
+<span class="c">#file_name = &#39;BMG8-zr60cu30al10_375c_10mN_6um_000_TR.gsf&#39;</span>
+<span class="n">image</span> <span class="o">=</span><span class="n">load_from_gsf</span><span class="p">(</span><span class="n">file_name</span><span class="p">)</span>
+<span class="n">image</span><span class="o">.</span><span class="n">change_xy_unit</span><span class="p">(</span><span class="s">&#39;um&#39;</span><span class="p">)</span>
+<span class="n">image</span><span class="o">.</span><span class="n">change_z_unit</span><span class="p">(</span><span class="s">&#39;nm&#39;</span><span class="p">)</span>
+<span class="n">image</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">crop</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">image</span><span class="o">.</span><span class="n">center_min</span><span class="p">()</span>
+<span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">Z</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">get_xyz</span><span class="p">()</span>
+<span class="n">r</span> <span class="o">=</span> <span class="mf">2.</span>
+<span class="n">mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span> <span class="o">&gt;</span> <span class="n">r</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span> <span class="p">)</span>
+<span class="n">image</span><span class="p">,</span> <span class="n">residual</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">line_fit</span><span class="p">(</span><span class="n">mask</span> <span class="o">=</span> <span class="n">mask</span><span class="p">)</span>
+<span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">Z</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">get_xyz</span><span class="p">()</span>
+<span class="n">xlabel</span><span class="p">,</span> <span class="n">ylabel</span><span class="p">,</span> <span class="n">zlabel</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">get_labels</span><span class="p">()</span>
+<span class="c"># Let&#39;s define some paths:</span>
+<span class="n">s</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mf">5.</span><span class="p">,</span> <span class="mf">5.</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+<span class="c"># A tilted line to produce a section</span>
+<span class="n">angle0</span> <span class="o">=</span> <span class="mf">55.</span>
+<span class="n">xc</span> <span class="o">=</span> <span class="mf">0.</span>
+<span class="n">yc</span> <span class="o">=</span> <span class="mf">0.</span>
+<span class="n">x0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">angle0</span><span class="p">))</span> <span class="o">*</span> <span class="n">s</span> <span class="o">+</span> <span class="n">xc</span>
+<span class="n">y0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">angle0</span><span class="p">))</span> <span class="o">*</span> <span class="n">s</span> <span class="o">+</span> <span class="n">yc</span>
+<span class="n">X0</span><span class="p">,</span> <span class="n">Y0</span><span class="p">,</span> <span class="n">Z0</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">interpolate</span><span class="p">(</span><span class="n">x0</span><span class="p">,</span> <span class="n">y0</span><span class="p">)</span>
+<span class="n">x1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">angle0</span> <span class="o">+</span> <span class="mf">120.</span><span class="p">))</span> <span class="o">*</span> <span class="n">s</span> <span class="o">+</span> <span class="n">xc</span>
+<span class="n">y1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">angle0</span> <span class="o">+</span> <span class="mf">120.</span><span class="p">))</span> <span class="o">*</span> <span class="n">s</span> <span class="o">+</span> <span class="n">yc</span>
+<span class="n">X1</span><span class="p">,</span> <span class="n">Y1</span><span class="p">,</span> <span class="n">Z1</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">interpolate</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">y1</span><span class="p">)</span>
+<span class="n">x2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">angle0</span> <span class="o">-</span> <span class="mf">120.</span><span class="p">))</span> <span class="o">*</span> <span class="n">s</span> <span class="o">+</span> <span class="n">xc</span>
+<span class="n">y2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">angle0</span> <span class="o">-</span> <span class="mf">120.</span><span class="p">))</span> <span class="o">*</span> <span class="n">s</span> <span class="o">+</span> <span class="n">yc</span>
+<span class="n">X2</span><span class="p">,</span> <span class="n">Y2</span><span class="p">,</span> <span class="n">Z2</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">interpolate</span><span class="p">(</span><span class="n">x2</span><span class="p">,</span> <span class="n">y2</span><span class="p">)</span>
+<span class="n">levels</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">clf</span><span class="p">()</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">121</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s">&#39;equal&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s">&#39;Original + Plane Fit&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+<span class="n">grad</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">Y</span><span class="p">,</span><span class="n">Z</span><span class="p">,</span> <span class="n">levels</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">X0</span><span class="p">,</span> <span class="n">Y0</span><span class="p">,</span> <span class="s">&#39;r-&#39;</span><span class="p">,</span> <span class="n">linewidth</span> <span class="o">=</span> <span class="mf">2.</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">X1</span><span class="p">,</span> <span class="n">Y1</span><span class="p">,</span> <span class="s">&#39;b-&#39;</span><span class="p">,</span> <span class="n">linewidth</span> <span class="o">=</span> <span class="mf">2.</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">X2</span><span class="p">,</span> <span class="n">Y2</span><span class="p">,</span> <span class="s">&#39;g-&#39;</span><span class="p">,</span> <span class="n">linewidth</span> <span class="o">=</span> <span class="mf">2.</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="n">xlabel</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="n">ylabel</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">122</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s">&#39;Sections&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">Z0</span><span class="p">,</span> <span class="s">&#39;r-&#39;</span><span class="p">,</span> <span class="n">linewidth</span> <span class="o">=</span> <span class="mf">2.</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">Z1</span><span class="p">,</span> <span class="s">&#39;b-&#39;</span><span class="p">,</span> <span class="n">linewidth</span> <span class="o">=</span> <span class="mf">2.</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">Z2</span><span class="p">,</span> <span class="s">&#39;g-&#39;</span><span class="p">,</span> <span class="n">linewidth</span> <span class="o">=</span> <span class="mf">2.</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="n">xlabel</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="n">zlabel</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>(<a class="reference external" href="./example_code/generic/Spm_image-interpolate.py">Source code</a>, <a class="reference external" href="./example_code/generic/Spm_image-interpolate.png">png</a>, <a class="reference external" href="./example_code/generic/Spm_image-interpolate.hires.png">hires.png</a>, <a class="reference external" href="./example_code/generic/Spm_image-interpolate.pdf">pdf</a>)</p>
+<div class="figure">
+<img alt="_images/Spm_image-interpolate.png" src="_images/Spm_image-interpolate.png" />
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="spym.generic.Spm_image.crop">
+<tt class="descclassname">Spm_image.</tt><tt class="descname">crop</tt><big>(</big><em>cx0=0</em>, <em>cx1=0</em>, <em>cy0=0</em>, <em>cy1=0</em><big>)</big><a class="reference internal" href="_modules/spym/generic.html#Spm_image.crop"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spym.generic.Spm_image.crop" title="Permalink to this definition">¶</a></dt>
+<dd><p>Crops the image by a given pixel number on each side and refreshes image data such as <tt class="docutils literal"><span class="pre">self.lx</span></tt> and <tt class="docutils literal"><span class="pre">self.ly</span></tt>. Negative values are allowed and produce empty (masked) areas.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>cx0</strong> (<em>integer</em>) &#8211; number of pixels to remove on lower x side.</li>
+<li><strong>cx1</strong> (<em>integer</em>) &#8211; number of pixels to remove on upper x side.</li>
+<li><strong>cy0</strong> (<em>integer</em>) &#8211; number of pixels to remove on lower y side.</li>
+<li><strong>cy1</strong> (<em>integer</em>) &#8211; number of pixels to remove on upper y side.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">spym.generic</span> <span class="kn">import</span> <span class="n">Spm_image</span><span class="p">,</span> <span class="n">load_from_gsf</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+
+<span class="n">file_name</span> <span class="o">=</span> <span class="s">&#39;wg_berk-0deg_n2_6um_000_TR.gsf&#39;</span>
+<span class="c">#file_name = &#39;BMG8-zr60cu30al10_375c_10mN_6um_000_TR.gsf&#39;</span>
+<span class="n">image</span> <span class="o">=</span> <span class="n">load_from_gsf</span><span class="p">(</span><span class="n">file_name</span><span class="p">)</span>
+<span class="n">image</span><span class="o">.</span><span class="n">change_z_unit</span><span class="p">(</span><span class="s">&#39;nm&#39;</span><span class="p">)</span>
+<span class="n">image</span><span class="o">.</span><span class="n">change_xy_unit</span><span class="p">(</span><span class="s">&#39;um&#39;</span><span class="p">)</span>
+<span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">Z</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">get_xyz</span><span class="p">()</span>
+<span class="n">loc</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">get_min_position</span><span class="p">()</span>
+<span class="n">xc</span><span class="p">,</span> <span class="n">yc</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="n">loc</span><span class="p">],</span> <span class="n">Y</span><span class="p">[</span><span class="n">loc</span><span class="p">]</span>
+<span class="n">image</span><span class="o">.</span><span class="n">set_center</span><span class="p">(</span><span class="n">xc</span> <span class="o">=</span> <span class="n">xc</span><span class="p">,</span> <span class="n">yc</span> <span class="o">=</span> <span class="n">yc</span><span class="p">)</span>
+<span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">Z</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">get_xyz</span><span class="p">()</span>
+<span class="n">xlabel</span><span class="p">,</span> <span class="n">ylabel</span><span class="p">,</span> <span class="n">zlabel</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">get_labels</span><span class="p">()</span>
+<span class="c"># Let&#39;s crop</span>
+<span class="n">image1</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">crop</span><span class="p">(</span><span class="n">cx0</span> <span class="o">=</span> <span class="o">-</span><span class="mi">100</span><span class="p">,</span> <span class="n">cx1</span> <span class="o">=</span> <span class="o">-</span><span class="mi">50</span><span class="p">,</span> <span class="n">cy0</span> <span class="o">=</span> <span class="mi">20</span><span class="p">,</span> <span class="n">cy1</span><span class="o">=</span><span class="mi">80</span><span class="p">)</span>
+<span class="n">X1</span><span class="p">,</span> <span class="n">Y1</span><span class="p">,</span> <span class="n">Z1</span> <span class="o">=</span> <span class="n">image1</span><span class="o">.</span><span class="n">get_xyz</span><span class="p">()</span>
+<span class="n">levels</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">clf</span><span class="p">()</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">121</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s">&#39;equal&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s">&#39;Original&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+<span class="n">grad</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">Y</span><span class="p">,</span><span class="n">Z</span><span class="p">,</span> <span class="n">levels</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="n">xlabel</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="n">ylabel</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">122</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s">&#39;equal&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s">&#39;Cropped&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+<span class="n">grad</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span><span class="n">X1</span><span class="p">,</span><span class="n">Y1</span><span class="p">,</span><span class="n">Z1</span><span class="p">,</span> <span class="n">levels</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="n">xlabel</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="n">ylabel</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>(<a class="reference external" href="./example_code/generic/Spm_image-crop.py">Source code</a>, <a class="reference external" href="./example_code/generic/Spm_image-crop.png">png</a>, <a class="reference external" href="./example_code/generic/Spm_image-crop.hires.png">hires.png</a>, <a class="reference external" href="./example_code/generic/Spm_image-crop.pdf">pdf</a>)</p>
+<div class="figure">
+<img alt="_images/Spm_image-crop.png" src="_images/Spm_image-crop.png" />
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="tests">
+<h3>Tests<a class="headerlink" href="#tests" title="Permalink to this headline">¶</a></h3>
+<dl class="method">
+<dt id="spym.generic.Spm_image.is_like">
+<tt class="descclassname">Spm_image.</tt><tt class="descname">is_like</tt><big>(</big><em>other</em><big>)</big><a class="reference internal" href="_modules/spym/generic.html#Spm_image.is_like"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spym.generic.Spm_image.is_like" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tests if lx, ly, x_samples(), y_samples(), xc, yc are identical and returns the result (True or False).</p>
+</dd></dl>
+
+</div>
+<div class="section" id="miscellaneous">
+<h3>Miscellaneous<a class="headerlink" href="#miscellaneous" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="spym.generic.protractor">
+<tt class="descclassname">spym.generic.</tt><tt class="descname">protractor</tt><big>(</big><em>ax</em>, <em>r0</em>, <em>r1</em>, <em>nGrad=180</em>, <em>xc=0.0</em>, <em>yc=0.0</em>, <em>ls='-'</em>, <em>lw=0.1</em>, <em>fs=4.0</em>, <em>deportText=0.06</em><big>)</big><a class="reference internal" href="_modules/spym/generic.html#protractor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#spym.generic.protractor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a protractor to a subplot in order to measure various angles.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>ax</strong> (<tt class="docutils literal"><span class="pre">matplotlib.axes.AxesSubplot</span></tt> instance.) &#8211; subplot where to add the protractor.</li>
+<li><strong>r0</strong> (<em>int</em>) &#8211; min radius of the protractor.</li>
+<li><strong>r1</strong> (<em>float</em>) &#8211; max radius of the protractor.</li>
+<li><strong>nGrad</strong> &#8211; number of graduations.</li>
+<li><strong>xc</strong> (<em>float</em>) &#8211; x coordinate of the center of the protractor.</li>
+<li><strong>yc</strong> (<em>float</em>) &#8211; y coordinate of the center of the protractor.</li>
+<li><strong>ls</strong> (<em>float</em>) &#8211; line style.</li>
+<li><strong>lw</strong> (<em>float</em>) &#8211; line width.</li>
+<li><strong>fs</strong> (<em>float</em>) &#8211; font size.</li>
+<li><strong>deportText</strong> (<em>float</em>) &#8211; text deportation.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">spym.generic</span> <span class="kn">import</span> <span class="n">Spm_image</span><span class="p">,</span> <span class="n">protractor</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+
+<span class="n">file_name</span> <span class="o">=</span> <span class="s">&#39;wg_berk-0deg_n2_6um_000_TR.txt&#39;</span>
+<span class="n">image</span> <span class="o">=</span> <span class="n">Spm_image</span><span class="p">()</span>
+<span class="n">image</span><span class="o">.</span><span class="n">load_from_file</span><span class="p">(</span><span class="n">file_name</span><span class="p">)</span>
+<span class="c"># Here we want to remove a band around the indent</span>
+<span class="n">r</span> <span class="o">=</span> <span class="mi">2</span> <span class="c"># Radius of the band in um</span>
+<span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">Z</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">get_xyz</span><span class="p">()</span>
+<span class="n">xi</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="n">image</span><span class="o">.</span><span class="n">get_min_position</span><span class="p">()]</span>
+<span class="n">yi</span> <span class="o">=</span> <span class="n">Y</span><span class="p">[</span><span class="n">image</span><span class="o">.</span><span class="n">get_min_position</span><span class="p">()]</span>
+<span class="n">mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">((</span><span class="n">X</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="n">xi</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">&gt;</span> <span class="n">r</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span> <span class="p">)</span>
+<span class="n">image</span><span class="p">,</span> <span class="n">residual</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">line_fit</span><span class="p">(</span><span class="n">mask</span> <span class="o">=</span> <span class="n">mask</span><span class="p">)</span>
+<span class="n">image</span><span class="o">.</span><span class="n">change_z_unit</span><span class="p">(</span><span class="s">&#39;um&#39;</span><span class="p">)</span>
+<span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">Z</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">get_xyz</span><span class="p">()</span>
+<span class="n">R</span> <span class="o">=</span> <span class="p">((</span><span class="n">X</span><span class="o">-</span><span class="n">xi</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="n">Y</span><span class="o">-</span><span class="n">yi</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">**.</span><span class="mi">5</span>
+<span class="n">mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">R</span> <span class="o">&lt;</span> <span class="mf">1.5</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span> <span class="p">)</span>
+<span class="n">xlabel</span><span class="p">,</span> <span class="n">ylabel</span><span class="p">,</span> <span class="n">zlabel</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">get_labels</span><span class="p">()</span>
+<span class="n">levels</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="n">xc</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="n">image</span><span class="o">.</span><span class="n">get_min_position</span><span class="p">()][</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">yc</span> <span class="o">=</span> <span class="n">Y</span><span class="p">[</span><span class="n">image</span><span class="o">.</span><span class="n">get_min_position</span><span class="p">()][</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s">&#39;equal&#39;</span><span class="p">)</span>
+<span class="n">grad</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">Y</span><span class="p">,</span><span class="n">Z</span><span class="o">+</span> <span class="n">mask</span><span class="p">,</span> <span class="n">levels</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">([])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">yticks</span><span class="p">([])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="n">xlabel</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="n">ylabel</span><span class="p">)</span>
+<span class="n">protractor</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span>
+  <span class="n">nGrad</span> <span class="o">=</span><span class="mi">90</span><span class="p">,</span>
+  <span class="n">r0</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">lx</span><span class="o">/</span><span class="mf">8.</span><span class="p">,</span>
+  <span class="n">r1</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">lx</span><span class="o">/</span><span class="mf">2.8</span><span class="p">,</span>
+  <span class="n">xc</span> <span class="o">=</span> <span class="n">xc</span><span class="p">,</span>
+  <span class="n">yc</span> <span class="o">=</span> <span class="n">yc</span><span class="p">,</span>
+  <span class="n">fs</span> <span class="o">=</span> <span class="mf">8.</span><span class="p">,</span>
+  <span class="n">lw</span> <span class="o">=</span> <span class="mf">1.</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>(<a class="reference external" href="./example_code/generic/protractor.py">Source code</a>)</p>
+</dd></dl>
+
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Generic</a><ul>
+<li><a class="reference internal" href="#spm-image">Spm_image</a><ul>
+<li><a class="reference internal" href="#set-and-load-attributes">Set and load attributes</a></li>
+<li><a class="reference internal" href="#manipulate-image-attributes">Manipulate image attributes</a></li>
+<li><a class="reference internal" href="#get-image-data">Get image data</a></li>
+<li><a class="reference internal" href="#artefact-and-tilt-corrections">Artefact and tilt corrections</a></li>
+<li><a class="reference internal" href="#image-modification">Image modification</a></li>
+<li><a class="reference internal" href="#tests">Tests</a></li>
+<li><a class="reference internal" href="#miscellaneous">Miscellaneous</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="index.html"
+                        title="previous chapter">SPyM Documentation</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="scratch.html"
+                        title="next chapter">Scratch</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/generic.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="scratch.html" title="Scratch"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="SPyM Documentation"
+             >previous</a> |</li>
+        <li><a href="index.html">spym 1.0.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2012, Ludovic Charleux.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

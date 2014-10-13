@@ -1,0 +1,197 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>spym.indentation &mdash; spym 1.0.0 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="spym 1.0.0 documentation" href="../../index.html" />
+    <link rel="up" title="Module code" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../index.html">spym 1.0.0 documentation</a> &raquo;</li>
+          <li><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for spym.indentation</h1><div class="highlight"><pre>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">scipy.ndimage</span> <span class="kn">as</span> <span class="nn">nd</span>
+<span class="kn">import</span> <span class="nn">copy</span>
+
+<div class="viewcode-block" id="Indenter_orientation"><a class="viewcode-back" href="../../indentation.html#spym.indentation.Indenter_orientation">[docs]</a><span class="k">def</span> <span class="nf">Indenter_orientation</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">edges</span><span class="p">,</span> <span class="n">rmax</span> <span class="o">=</span> <span class="s">&#39;min&#39;</span><span class="p">,</span> <span class="n">width</span> <span class="o">=</span> <span class="o">.</span><span class="mi">5</span><span class="p">):</span>
+  <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">  Finds the orientation of a pyramidal indenter using the imprint.</span>
+<span class="sd">  </span>
+<span class="sd">  :param image: imprint</span>
+<span class="sd">  :type image: ``spy.generic.Spm_image`` instance</span>
+<span class="sd">  :param edges: number of edges on the indenter.</span>
+<span class="sd">  :type edges: int</span>
+<span class="sd">  :param rmax: max radius for the polar interpolation. </span>
+<span class="sd">  :type rmax: float, &#39;min&#39; or &#39;max&#39;</span>
+<span class="sd">  </span>
+<span class="sd">  </span>
+<span class="sd">  .. plot:: example_code/indentation/Indenter_orientation.py</span>
+<span class="sd">    :include-source: </span>
+<span class="sd">  &#39;&#39;&#39;</span>
+  <span class="n">image</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
+  <span class="n">image</span><span class="o">.</span><span class="n">center_min</span><span class="p">()</span>
+  <span class="n">image</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">nd</span><span class="o">.</span><span class="n">filters</span><span class="o">.</span><span class="n">laplace</span><span class="p">(</span><span class="n">image</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+  <span class="n">R</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">Z</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">get_rtz</span><span class="p">(</span><span class="n">rmax</span> <span class="o">=</span> <span class="n">rmax</span><span class="p">)</span>
+  <span class="n">z</span> <span class="o">=</span> <span class="n">Z</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+  <span class="n">t</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">degrees</span><span class="p">(</span><span class="n">T</span><span class="p">[:,</span><span class="mi">0</span><span class="p">])</span>
+  <span class="n">ze</span><span class="p">,</span> <span class="n">te</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[]</span>
+  <span class="n">nw</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="mf">1.</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="n">edges</span><span class="p">)</span> <span class="o">*</span> <span class="n">width</span> <span class="o">/</span> <span class="mf">2.</span> <span class="o">*</span> <span class="nb">float</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">z</span><span class="p">)))</span>
+  <span class="n">zc</span><span class="p">,</span> <span class="n">tc</span> <span class="o">=</span> <span class="n">z</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span> <span class="n">t</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span> 
+  <span class="n">l</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">zc</span><span class="p">)</span>
+  <span class="k">for</span> <span class="n">edge</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="n">edges</span><span class="p">):</span>
+    <span class="n">zm</span> <span class="o">=</span> <span class="n">zc</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+    <span class="n">zm_loc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">zc</span> <span class="o">==</span> <span class="n">zm</span><span class="p">)[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">to_nullify</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">nw</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="n">nw</span> <span class="o">+</span> <span class="n">zm_loc</span>
+    <span class="n">to_nullify</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">to_nullify</span> <span class="o">&gt;</span> <span class="n">l</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">to_nullify</span> <span class="o">-</span> <span class="n">l</span><span class="p">,</span> <span class="n">to_nullify</span><span class="p">)</span>
+    <span class="n">ze</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">zm</span><span class="p">)</span>
+    <span class="n">te</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">t</span><span class="p">[</span><span class="n">zm_loc</span><span class="p">])</span>
+    <span class="n">zc</span><span class="p">[</span><span class="n">to_nullify</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.</span>
+  <span class="n">rotation</span> <span class="o">=</span> <span class="mf">0.</span>  
+  <span class="n">te</span><span class="p">,</span> <span class="n">ze</span> <span class="o">=</span> <span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="nb">sorted</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">te</span><span class="p">,</span> <span class="n">ze</span><span class="p">)))</span>
+  <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">te</span><span class="p">)):</span> <span class="n">rotation</span> <span class="o">+=</span> <span class="n">te</span> <span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="mf">360.</span> <span class="o">/</span> <span class="n">edges</span> <span class="o">*</span> <span class="n">i</span>        
+  <span class="n">rotation</span> <span class="o">=</span> <span class="n">rotation</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="n">edges</span><span class="p">)</span>
+  <span class="k">return</span> <span class="n">rotation</span><span class="p">,</span> <span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">z</span><span class="p">),</span> <span class="p">(</span><span class="n">te</span><span class="p">,</span> <span class="n">ze</span><span class="p">),</span> <span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">Z</span><span class="p">)</span>
+  </div>
+<div class="viewcode-block" id="Pyramidal_indenter"><a class="viewcode-back" href="../../indentation.html#spym.indentation.Pyramidal_indenter">[docs]</a><span class="k">def</span> <span class="nf">Pyramidal_indenter</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">sides</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="n">angle</span> <span class="o">=</span> <span class="mf">65.27</span><span class="p">,</span> <span class="n">rotation</span> <span class="o">=</span> <span class="mf">0.</span> <span class="p">):</span>
+  <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">  Builts a pyramidal indenter based on an existing image. The image is used to find xy and z units, lx and ly and the position of the origin. The tip of the indenter is always at X = Y = 0.  </span>
+<span class="sd">  </span>
+<span class="sd">  :param image: the image to use.</span>
+<span class="sd">  :type image: ``spym.generic.Spm_image`` instance.</span>
+<span class="sd">  :param sides: number of sides.</span>
+<span class="sd">  :type sides: int</span>
+<span class="sd">  :param angle: angle between the axis and the faces. </span>
+<span class="sd">  :type angle: float</span>
+<span class="sd">  :param rotation: rotation or the sides in the (x,y) plane in degrees.</span>
+<span class="sd">  :type rotation: float</span>
+<span class="sd">  </span>
+<span class="sd">  .. plot:: example_code/indentation/Pyramidal_indenter.py</span>
+<span class="sd">    :include-source:  </span>
+<span class="sd">  &#39;&#39;&#39;</span>
+  <span class="n">out</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+  <span class="n">X</span><span class="p">,</span><span class="n">Y</span><span class="p">,</span><span class="n">Z</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">get_xyz</span><span class="p">()</span>
+  <span class="n">theta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.</span><span class="p">,</span> <span class="mf">360.</span><span class="p">,</span> <span class="n">sides</span><span class="p">,</span> <span class="n">endpoint</span> <span class="o">=</span> <span class="bp">False</span><span class="p">)</span> <span class="o">+</span> <span class="mf">360.</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="n">sides</span><span class="p">)</span> <span class="o">/</span> <span class="mf">2.</span> <span class="o">+</span> <span class="n">rotation</span>
+  <span class="n">Faces</span> <span class="o">=</span> <span class="p">[]</span>
+  <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">theta</span> <span class="p">:</span> 
+     <span class="n">D</span> <span class="o">=</span> <span class="n">X</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">t</span><span class="p">))</span> <span class="o">+</span> <span class="n">Y</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">t</span><span class="p">))</span>
+     <span class="n">F</span> <span class="o">=</span> <span class="n">D</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">tan</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">angle</span><span class="p">))</span>
+     <span class="n">Faces</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">F</span><span class="p">)</span>
+  <span class="n">Faces</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">Faces</span><span class="p">)</span>
+  <span class="n">Z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">amax</span><span class="p">(</span><span class="n">Faces</span><span class="p">,</span> <span class="n">axis</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
+  <span class="n">Z</span> <span class="o">=</span> <span class="n">Z</span> <span class="o">*</span> <span class="n">out</span><span class="o">.</span><span class="n">get_xy_factor</span><span class="p">()</span> <span class="o">/</span> <span class="n">out</span><span class="o">.</span><span class="n">get_z_factor</span><span class="p">()</span>
+  <span class="n">out</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">Z</span>
+  
+  <span class="k">return</span> <span class="n">out</span>
+</div>
+<div class="viewcode-block" id="Contact_area"><a class="viewcode-back" href="../../indentation.html#spym.indentation.Contact_area">[docs]</a><span class="k">def</span> <span class="nf">Contact_area</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">indenter</span><span class="p">,</span> <span class="n">depth</span><span class="p">):</span>
+  <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">  Returns the contact area between an image, an indenter and at a given depth.</span>
+<span class="sd">  </span>
+<span class="sd">  :param image: the image to use.</span>
+<span class="sd">  :type image: ``spym.generic.Spm_image`` instance.</span>
+<span class="sd">  :param indenter: the image to use.</span>
+<span class="sd">  :type indenter: ``spym.generic.Spm_image`` instance.</span>
+<span class="sd">  :param depth: contact depth</span>
+<span class="sd">  :type depth: float</span>
+<span class="sd">  :rtype: tuple</span>
+<span class="sd">  </span>
+<span class="sd">  Returns:</span>
+<span class="sd">  </span>
+<span class="sd">  * Contact area </span>
+<span class="sd">  * Unit</span>
+<span class="sd">  </span>
+<span class="sd">  </span>
+<span class="sd">  .. plot:: example_code/indentation/Contact_area.py</span>
+<span class="sd">    :include-source:  </span>
+<span class="sd">  &#39;&#39;&#39;</span>  
+  <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">Z</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">get_xyz</span><span class="p">()</span>
+  <span class="n">Xi</span><span class="p">,</span> <span class="n">Yi</span><span class="p">,</span> <span class="n">Zi</span> <span class="o">=</span> <span class="n">indenter</span><span class="o">.</span><span class="n">get_xyz</span><span class="p">()</span>
+  <span class="n">Zeq</span> <span class="o">=</span> <span class="n">Zi</span> <span class="o">-</span> <span class="p">(</span> <span class="n">Z</span> <span class="o">-</span><span class="n">Z</span><span class="o">.</span><span class="n">min</span><span class="p">()</span> <span class="p">)</span>
+  <span class="n">A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">Zeq</span> <span class="o">&gt;</span> <span class="n">depth</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">*</span> <span class="p">(</span><span class="n">image</span><span class="o">.</span><span class="n">lx</span> <span class="o">/</span> <span class="n">image</span><span class="o">.</span><span class="n">x_samples</span><span class="p">())</span><span class="o">**</span><span class="mi">2</span>
+  <span class="n">unit</span><span class="p">,</span> <span class="n">trash</span><span class="p">,</span> <span class="n">trashh</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">get_labels</span><span class="p">()</span>
+  <span class="n">unit</span> <span class="o">=</span> <span class="n">unit</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="s">&#39;^2$&#39;</span>
+  <span class="k">return</span> <span class="n">A</span><span class="p">,</span> <span class="n">unit</span>
+  
+</pre></div></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../index.html">spym 1.0.0 documentation</a> &raquo;</li>
+          <li><a href="../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2012, Ludovic Charleux.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

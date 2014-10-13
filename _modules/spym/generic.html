@@ -1,0 +1,696 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>spym.generic &mdash; spym 1.0.0 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="spym 1.0.0 documentation" href="../../index.html" />
+    <link rel="up" title="Module code" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../index.html">spym 1.0.0 documentation</a> &raquo;</li>
+          <li><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for spym.generic</h1><div class="highlight"><pre>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">optimize</span><span class="p">,</span> <span class="n">interpolate</span><span class="p">,</span> <span class="n">ndimage</span>
+<span class="kn">import</span> <span class="nn">copy</span>
+<span class="kn">from</span> <span class="nn">StringIO</span> <span class="kn">import</span> <span class="n">StringIO</span>   <span class="c"># StringIO behaves like a file object</span>
+
+
+<span class="k">class</span> <span class="nc">Spm_image</span><span class="p">:</span>
+  <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">  A class to proceed Scanning Probe Microscopy images using Python.</span>
+<span class="sd">  &#39;&#39;&#39;</span>
+  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span> <span class="o">=</span> <span class="s">&#39;SPM image&#39;</span><span class="p">,</span> <span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">0.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">],[</span><span class="mf">1.</span><span class="p">,</span> <span class="mf">2.</span><span class="p">]]),</span> <span class="n">lx</span> <span class="o">=</span> <span class="mf">1.</span><span class="p">,</span> <span class="n">ly</span><span class="o">=</span><span class="mf">1.</span><span class="p">,</span> <span class="n">xc</span> <span class="o">=</span><span class="mf">0.</span><span class="p">,</span> <span class="n">yc</span> <span class="o">=</span> <span class="mf">0.</span><span class="p">,</span> <span class="n">xy_unit</span> <span class="o">=</span> <span class="s">&#39;m&#39;</span><span class="p">,</span> <span class="n">z_unit</span> <span class="o">=</span> <span class="s">&#39;m&#39;</span><span class="p">,</span> <span class="n">channel</span> <span class="o">=</span> <span class="s">&#39;topography&#39;</span><span class="p">):</span>
+    <span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">channel</span> <span class="o">=</span> <span class="n">channel</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">lx</span> <span class="o">=</span> <span class="n">lx</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">ly</span> <span class="o">=</span> <span class="n">ly</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">xc</span> <span class="o">=</span> <span class="n">xc</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">yc</span> <span class="o">=</span> <span class="n">yc</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">xy_unit</span> <span class="o">=</span> <span class="n">xy_unit</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">z_unit</span> <span class="o">=</span> <span class="n">z_unit</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+    
+  <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="s">&#39;&lt;spym.generic.Spm_image instance: {0}&gt;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+  
+  <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="n">pattern</span> <span class="o">=</span> <span class="s">&#39;&#39;&#39;  * Name = {0}</span>
+<span class="s">  * Channel = {1} </span>
+<span class="s">  * x points x y points = {2} x {3}</span>
+<span class="s">  * lx x ly = {4} {8} x {5} {8}</span>
+<span class="s">  * max / min = {6:.2e} {9} / {7:.2e} {9}&#39;&#39;&#39;</span>
+    <span class="k">return</span> <span class="n">pattern</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">channel</span><span class="p">,</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">x_samples</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">y_samples</span><span class="p">(),</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">lx</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ly</span><span class="p">,</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span> 
+      <span class="bp">self</span><span class="o">.</span><span class="n">xy_unit</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">z_unit</span><span class="p">)</span>
+  
+  
+  
+  <span class="k">def</span> <span class="nf">__add__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">Spm_image</span><span class="p">):</span>
+      <span class="n">other</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+      <span class="n">other</span><span class="o">.</span><span class="n">change_z_unit</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">z_unit</span><span class="p">)</span>
+      <span class="n">other</span><span class="o">.</span><span class="n">change_xy_unit</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xy_unit</span><span class="p">)</span>
+      
+    <span class="k">else</span><span class="p">:</span>
+      <span class="n">out</span><span class="o">.</span><span class="n">data</span> <span class="o">+=</span> <span class="n">other</span>
+    <span class="k">return</span> <span class="n">out</span>   
+  
+<div class="viewcode-block" id="Spm_image.set_xy_unit"><a class="viewcode-back" href="../../generic.html#spym.generic.Spm_image.set_xy_unit">[docs]</a>  <span class="k">def</span> <span class="nf">set_xy_unit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">xy_unit</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Sets x/y unit of the image without modifying its data.</span>
+<span class="sd">    </span>
+<span class="sd">    :param xy_unit: x/y unit taken in [&#39;m&#39;, &#39;cm&#39;, &#39;mm&#39;, &#39;um&#39;, &#39;nm&#39;]</span>
+<span class="sd">    :type xy_unit: string</span>
+<span class="sd">    &#39;&#39;&#39;</span>  
+    <span class="k">if</span> <span class="n">xy_unit</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s">&#39;m&#39;</span><span class="p">,</span> <span class="s">&#39;cm&#39;</span><span class="p">,</span> <span class="s">&#39;mm&#39;</span><span class="p">,</span> <span class="s">&#39;um&#39;</span><span class="p">,</span> <span class="s">&#39;nm&#39;</span><span class="p">]:</span>
+      <span class="k">raise</span> <span class="ne">Exception</span><span class="p">,</span> <span class="s">&#39;xy_unit must be in [&quot;m&quot;, &quot;cm&quot;, &quot;mm&quot;, &quot;um&quot;, &quot;nm&quot;], got {0} instead&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">xy_unit</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">xy_unit</span> <span class="o">=</span> <span class="n">xy_unit</span>
+    
+    </div>
+<div class="viewcode-block" id="Spm_image.set_z_unit"><a class="viewcode-back" href="../../generic.html#spym.generic.Spm_image.set_z_unit">[docs]</a>  <span class="k">def</span> <span class="nf">set_z_unit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">z_unit</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Sets z unit of the image without modifying its data.</span>
+<span class="sd">    </span>
+<span class="sd">    :param z_unit: z unit taken in [&#39;m&#39;, &#39;cm&#39;, &#39;mm&#39;, &#39;um&#39;, &#39;nm&#39;, &#39;N&#39;, &#39;mN&#39;, &#39;uN&#39;, &#39;nN&#39;]</span>
+<span class="sd">    :type z_unit: string</span>
+<span class="sd">    &#39;&#39;&#39;</span>  
+    <span class="k">if</span> <span class="n">z_unit</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s">&#39;m&#39;</span><span class="p">,</span> <span class="s">&#39;cm&#39;</span><span class="p">,</span> <span class="s">&#39;mm&#39;</span><span class="p">,</span> <span class="s">&#39;um&#39;</span><span class="p">,</span> <span class="s">&#39;nm&#39;</span><span class="p">,</span> <span class="s">&#39;N&#39;</span><span class="p">,</span> <span class="s">&#39;mN&#39;</span><span class="p">,</span> <span class="s">&#39;uN&#39;</span><span class="p">,</span> <span class="s">&#39;nN&#39;</span><span class="p">]:</span>
+      <span class="k">raise</span> <span class="ne">Exception</span><span class="p">,</span> <span class="s">&#39;z_unit must be in [&quot;m&quot;, &quot;cm&quot;, &quot;mm&quot;, &quot;um&quot;, &quot;nm&quot;, &quot;N&quot;, &quot;mN&quot;, &quot;uN&quot;, &quot;nN&quot;], got {0} instead&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">xy_unit</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">z_unit</span> <span class="o">=</span> <span class="n">z_unit</span>
+  </div>
+<div class="viewcode-block" id="Spm_image.set_lx"><a class="viewcode-back" href="../../generic.html#spym.generic.Spm_image.set_lx">[docs]</a>  <span class="k">def</span> <span class="nf">set_lx</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lx</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Sets the length of the image on x axis.</span>
+<span class="sd">    </span>
+<span class="sd">    :param lx: length &gt; 0.</span>
+<span class="sd">    :type lx: float </span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">lx</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">lx</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">lx</span> <span class="o">&lt;=</span> <span class="mf">0.</span><span class="p">:</span>
+      <span class="k">raise</span> <span class="ne">Exception</span><span class="p">,</span> <span class="s">&#39;lx must be &gt; 0., got {0} instead&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">lx</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">lx</span> <span class="o">=</span> <span class="n">lx</span>  
+  </div>
+<div class="viewcode-block" id="Spm_image.set_ly"><a class="viewcode-back" href="../../generic.html#spym.generic.Spm_image.set_ly">[docs]</a>  <span class="k">def</span> <span class="nf">set_ly</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ly</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Sets the length of the image on y axis.</span>
+<span class="sd">    </span>
+<span class="sd">    :param ly: length &gt; 0.</span>
+<span class="sd">    :type ly: float </span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">ly</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">ly</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">ly</span> <span class="o">&lt;=</span> <span class="mf">0.</span><span class="p">:</span>
+      <span class="k">raise</span> <span class="ne">Exception</span><span class="p">,</span> <span class="s">&#39;ly must be &gt; 0., got {0} instead&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ly</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">ly</span> <span class="o">=</span> <span class="n">ly</span>    
+  </div>
+<div class="viewcode-block" id="Spm_image.set_center"><a class="viewcode-back" href="../../generic.html#spym.generic.Spm_image.set_center">[docs]</a>  <span class="k">def</span> <span class="nf">set_center</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">xc</span> <span class="o">=</span> <span class="mf">0.</span><span class="p">,</span> <span class="n">yc</span> <span class="o">=</span> <span class="mf">0.</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Sets the center of the image.</span>
+<span class="sd">        </span>
+<span class="sd">    :param xc: center of the image along x.</span>
+<span class="sd">    :type xc: float</span>
+<span class="sd">    :param yc: center of the image along y.</span>
+<span class="sd">    :type yc: float </span>
+<span class="sd">    </span>
+<span class="sd">    .. plot:: example_code/generic/Spm_image-set_center.py</span>
+<span class="sd">      :include-source:    </span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">xc</span> <span class="o">+=</span> <span class="n">xc</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">yc</span> <span class="o">+=</span> <span class="n">yc</span>
+  </div>
+<div class="viewcode-block" id="Spm_image.set_name"><a class="viewcode-back" href="../../generic.html#spym.generic.Spm_image.set_name">[docs]</a>  <span class="k">def</span> <span class="nf">set_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Set the name of the image.</span>
+<span class="sd">    </span>
+<span class="sd">    :param name: name of the image.</span>
+<span class="sd">    :type name: string</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+  </div>
+<div class="viewcode-block" id="Spm_image.set_data"><a class="viewcode-back" href="../../generic.html#spym.generic.Spm_image.set_data">[docs]</a>  <span class="k">def</span> <span class="nf">set_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Sets data of the image.</span>
+<span class="sd">    </span>
+<span class="sd">    :param data: data of the image, must be a rectangular 2D array containing numbers that can be converted to float.</span>
+<span class="sd">    :type data: ``numpy.array``, ``array.array`` or nested list.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">data</span>
+  </div>
+<div class="viewcode-block" id="Spm_image.set_channel"><a class="viewcode-back" href="../../generic.html#spym.generic.Spm_image.set_channel">[docs]</a>  <span class="k">def</span> <span class="nf">set_channel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">channel</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Sets the channel description of the image.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">channel</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">channel</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">channel</span> <span class="o">=</span> <span class="n">channel</span>
+  
+  
+    
+  
+  </div>
+<div class="viewcode-block" id="Spm_image.load_from_file"><a class="viewcode-back" href="../../generic.html#spym.generic.Spm_image.load_from_file">[docs]</a>  <span class="k">def</span> <span class="nf">load_from_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file_name</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Loads image attributes from an ASCII file using the :download:`following format &lt;files/wg_berk-30deg_n2_6um_000_TF.dat&gt;` (can be produced by Gwyddion using ascii export):</span>
+<span class="sd">    </span>
+<span class="sd">    </span>
+<span class="sd">    </span>
+<span class="sd">    :param file_name: name of the file where to read data.</span>
+<span class="sd">    :type file_name: string</span>
+<span class="sd">    </span>
+<span class="sd">    .. plot:: example_code/generic/Spm_image-load_from_file.py</span>
+<span class="sd">      :include-source:    </span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    
+    <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">file_name</span><span class="p">,</span> <span class="s">&#39;r&#39;</span><span class="p">)</span>
+    <span class="n">channel</span>    <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;:&#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+    <span class="n">width_data</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;:&#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">lx</span>         <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">width_data</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">xy_unit</span>    <span class="o">=</span> <span class="n">width_data</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\xc2\xb5</span><span class="s">&#39;</span><span class="p">,</span> <span class="s">&#39;u&#39;</span><span class="p">)</span>
+    <span class="n">ly</span>         <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;:&#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">z_unit</span>     <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;:&#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\xc2\xb5</span><span class="s">&#39;</span><span class="p">,</span> <span class="s">&#39;u&#39;</span><span class="p">)</span>
+    <span class="n">data</span>       <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="n">StringIO</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()))</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">set_channel</span><span class="p">(</span><span class="n">channel</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">set_lx</span><span class="p">(</span><span class="n">lx</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">set_ly</span><span class="p">(</span><span class="n">ly</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">set_xy_unit</span><span class="p">(</span><span class="n">xy_unit</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">set_z_unit</span><span class="p">(</span><span class="n">z_unit</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">set_data</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">set_name</span><span class="p">(</span><span class="n">file_name</span><span class="p">)</span>
+      </div>
+  <span class="k">def</span> <span class="nf">get_z_factor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">unit</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">unit</span> <span class="o">==</span> <span class="bp">None</span><span class="p">:</span> <span class="n">unit</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">z_unit</span>
+    <span class="k">if</span> <span class="n">unit</span> <span class="ow">in</span> <span class="p">[</span><span class="s">&#39;m&#39;</span><span class="p">,</span> <span class="s">&#39;N&#39;</span><span class="p">]:</span> <span class="n">z_factor</span> <span class="o">=</span> <span class="mf">1.</span> 
+    <span class="k">if</span> <span class="n">unit</span> <span class="ow">in</span> <span class="p">[</span><span class="s">&#39;mm&#39;</span><span class="p">,</span> <span class="s">&#39;mN&#39;</span><span class="p">]:</span> <span class="n">z_factor</span> <span class="o">=</span> <span class="mf">1.e-3</span> 
+    <span class="k">if</span> <span class="n">unit</span> <span class="ow">in</span> <span class="p">[</span><span class="s">&#39;um&#39;</span><span class="p">,</span> <span class="s">&#39;uN&#39;</span><span class="p">]:</span> <span class="n">z_factor</span> <span class="o">=</span> <span class="mf">1.e-6</span>
+    <span class="k">if</span> <span class="n">unit</span> <span class="ow">in</span> <span class="p">[</span><span class="s">&#39;nm&#39;</span><span class="p">,</span> <span class="s">&#39;nN&#39;</span><span class="p">]:</span> <span class="n">z_factor</span> <span class="o">=</span> <span class="mf">1.e-9</span>
+    <span class="k">return</span> <span class="n">z_factor</span>
+    
+  <span class="k">def</span> <span class="nf">get_xy_factor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">unit</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">unit</span> <span class="o">==</span> <span class="bp">None</span><span class="p">:</span> <span class="n">unit</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xy_unit</span>
+    <span class="k">if</span> <span class="n">unit</span> <span class="ow">in</span> <span class="p">[</span><span class="s">&#39;m&#39;</span><span class="p">,</span> <span class="s">&#39;N&#39;</span><span class="p">]:</span> <span class="n">xy_factor</span> <span class="o">=</span> <span class="mf">1.</span> 
+    <span class="k">if</span> <span class="n">unit</span> <span class="ow">in</span> <span class="p">[</span><span class="s">&#39;mm&#39;</span><span class="p">,</span> <span class="s">&#39;mN&#39;</span><span class="p">]:</span> <span class="n">xy_factor</span> <span class="o">=</span> <span class="mf">1.e-3</span> 
+    <span class="k">if</span> <span class="n">unit</span> <span class="ow">in</span> <span class="p">[</span><span class="s">&#39;um&#39;</span><span class="p">,</span> <span class="s">&#39;uN&#39;</span><span class="p">]:</span> <span class="n">xy_factor</span> <span class="o">=</span> <span class="mf">1.e-6</span>
+    <span class="k">if</span> <span class="n">unit</span> <span class="ow">in</span> <span class="p">[</span><span class="s">&#39;nm&#39;</span><span class="p">,</span> <span class="s">&#39;nN&#39;</span><span class="p">]:</span> <span class="n">xy_factor</span> <span class="o">=</span> <span class="mf">1.e-9</span>
+    <span class="k">return</span> <span class="n">xy_factor</span>
+    
+<div class="viewcode-block" id="Spm_image.x_samples"><a class="viewcode-back" href="../../generic.html#spym.generic.Spm_image.x_samples">[docs]</a>  <span class="k">def</span> <span class="nf">x_samples</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Returns the number of samples along x axis.</span>
+<span class="sd">    </span>
+<span class="sd">    :rtype: int</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+  </div>
+<div class="viewcode-block" id="Spm_image.y_samples"><a class="viewcode-back" href="../../generic.html#spym.generic.Spm_image.y_samples">[docs]</a>  <span class="k">def</span> <span class="nf">y_samples</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Returns the number of samples along y axis.</span>
+<span class="sd">    </span>
+<span class="sd">    :rtype: int</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+  </div>
+<div class="viewcode-block" id="Spm_image.change_z_unit"><a class="viewcode-back" href="../../generic.html#spym.generic.Spm_image.change_z_unit">[docs]</a>  <span class="k">def</span> <span class="nf">change_z_unit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">new_unit</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Changes the z unit to a new one and corrects the values in ``self.data``.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">factor</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_z_factor</span><span class="p">()</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_z_factor</span><span class="p">(</span><span class="n">new_unit</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">set_data</span><span class="p">(</span><span class="n">factor</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">set_z_unit</span><span class="p">(</span><span class="n">new_unit</span><span class="p">)</span>
+  </div>
+<div class="viewcode-block" id="Spm_image.change_xy_unit"><a class="viewcode-back" href="../../generic.html#spym.generic.Spm_image.change_xy_unit">[docs]</a>  <span class="k">def</span> <span class="nf">change_xy_unit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">new_unit</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Changes the x/y unit to a new one and corrects the ``self.lx``, ``self.ly``, ``self.xc`` and ``self.yc``.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">factor</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_xy_factor</span><span class="p">()</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_xy_factor</span><span class="p">(</span><span class="n">new_unit</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">set_lx</span><span class="p">(</span><span class="n">factor</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">lx</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">set_ly</span><span class="p">(</span><span class="n">factor</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">ly</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">xc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xc</span> <span class="o">*</span> <span class="n">factor</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">yc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">yc</span> <span class="o">*</span> <span class="n">factor</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">set_xy_unit</span><span class="p">(</span><span class="n">new_unit</span><span class="p">)</span>
+  </div>
+<div class="viewcode-block" id="Spm_image.get_xlim"><a class="viewcode-back" href="../../generic.html#spym.generic.Spm_image.get_xlim">[docs]</a>  <span class="k">def</span> <span class="nf">get_xlim</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Returns the x limits of the image.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">return</span> <span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">xc</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">lx</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">xc</span>
+    </div>
+<div class="viewcode-block" id="Spm_image.get_ylim"><a class="viewcode-back" href="../../generic.html#spym.generic.Spm_image.get_ylim">[docs]</a>  <span class="k">def</span> <span class="nf">get_ylim</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Returns the y limits of the image.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">return</span> <span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">yc</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ly</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">yc</span>
+  </div>
+<div class="viewcode-block" id="Spm_image.get_xyz"><a class="viewcode-back" href="../../generic.html#spym.generic.Spm_image.get_xyz">[docs]</a>  <span class="k">def</span> <span class="nf">get_xyz</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Returns useable data from the image as 3 arrays using cartesian coordinates:</span>
+<span class="sd">    </span>
+<span class="sd">    * X is the values of x for each pixel.</span>
+<span class="sd">    * Y is the values of y for each pixel.</span>
+<span class="sd">    * Z is the values of z for each pixel.</span>
+<span class="sd">    </span>
+<span class="sd">    :rtype: 3 ``numpy.array``</span>
+<span class="sd">    </span>
+<span class="sd">    .. plot:: example_code/generic/Spm_image-get_xyz.py</span>
+<span class="sd">      :include-source: </span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">lx</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">x_samples</span><span class="p">())</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">xc</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ly</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y_samples</span><span class="p">())</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">yc</span>
+    <span class="n">X</span><span class="p">,</span> <span class="n">Y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">)</span>
+    <span class="n">Z</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">Z</span>
+  </div>
+<div class="viewcode-block" id="Spm_image.get_rtz"><a class="viewcode-back" href="../../generic.html#spym.generic.Spm_image.get_rtz">[docs]</a>  <span class="k">def</span> <span class="nf">get_rtz</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nr</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">nt</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">rmax</span> <span class="o">=</span> <span class="s">&#39;max&#39;</span> <span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Returns useable data from the image as 3 arrays using cylindrical coordinates:</span>
+<span class="sd">    </span>
+<span class="sd">    * R is the values of the radius r for each pixel.</span>
+<span class="sd">    * T is the values of the angle theta for each pixel.</span>
+<span class="sd">    * Z is the values of z for each pixel.</span>
+<span class="sd">    </span>
+<span class="sd">    :rtype: 3 ``numpy.array``</span>
+<span class="sd">    </span>
+<span class="sd">    .. plot:: example_code/generic/Spm_image-get_rtz.py</span>
+<span class="sd">      :include-source: </span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">nx</span><span class="p">,</span> <span class="n">ny</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">x_samples</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">y_samples</span><span class="p">()</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">nx</span><span class="p">,</span> <span class="n">ny</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">nr</span> <span class="o">==</span> <span class="bp">None</span><span class="p">:</span> <span class="n">nr</span> <span class="o">=</span> <span class="n">n</span>
+    <span class="k">if</span> <span class="n">nt</span> <span class="o">==</span> <span class="bp">None</span><span class="p">:</span> <span class="n">nt</span> <span class="o">=</span> <span class="n">n</span>  
+    <span class="n">X0</span><span class="p">,</span> <span class="n">Y0</span><span class="p">,</span> <span class="n">Z0</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_xyz</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">rmax</span> <span class="o">==</span> <span class="s">&#39;max&#39;</span><span class="p">:</span> <span class="n">rmax</span> <span class="o">=</span> <span class="p">((</span><span class="n">X0</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">Y0</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">max</span><span class="p">())</span><span class="o">**.</span><span class="mi">5</span>
+    <span class="k">if</span> <span class="n">rmax</span> <span class="o">==</span> <span class="s">&#39;min&#39;</span><span class="p">:</span> 
+      <span class="n">rmax</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span> <span class="n">X0</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span> <span class="o">-</span><span class="n">X0</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">Y0</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span> <span class="o">-</span><span class="n">Y0</span><span class="o">.</span><span class="n">min</span><span class="p">()</span> <span class="p">)</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.</span><span class="p">,</span> <span class="n">rmax</span><span class="p">,</span> <span class="n">nr</span><span class="p">)</span>
+    <span class="n">t</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="n">nt</span><span class="p">)</span>
+    <span class="n">R</span><span class="p">,</span> <span class="n">T</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">t</span><span class="p">)</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="n">R</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">T</span><span class="p">)</span>
+    <span class="n">Y</span> <span class="o">=</span> <span class="n">R</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">T</span><span class="p">)</span>
+    <span class="n">X0</span> <span class="o">=</span> <span class="n">X0</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+    <span class="n">Y0</span> <span class="o">=</span> <span class="n">Y0</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+    <span class="n">Z0</span> <span class="o">=</span> <span class="n">Z0</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+    <span class="n">points</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">X0</span><span class="p">,</span><span class="n">Y0</span><span class="p">])</span><span class="o">.</span><span class="n">transpose</span><span class="p">()</span>
+    <span class="n">Z</span> <span class="o">=</span> <span class="n">interpolate</span><span class="o">.</span><span class="n">griddata</span><span class="p">(</span><span class="n">points</span><span class="p">,</span> <span class="n">Z0</span><span class="p">,</span> <span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">),</span> <span class="n">method</span> <span class="o">=</span> <span class="s">&#39;linear&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">R</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">Z</span>
+    
+    </div>
+<div class="viewcode-block" id="Spm_image.get_labels"><a class="viewcode-back" href="../../generic.html#spym.generic.Spm_image.get_labels">[docs]</a>  <span class="k">def</span> <span class="nf">get_labels</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Returns labels using LaTeX syntax usable in Matplotlib:</span>
+<span class="sd">    </span>
+<span class="sd">    * x label</span>
+<span class="sd">    * y label</span>
+<span class="sd">    * z label</span>
+<span class="sd">    </span>
+<span class="sd">    :rtype: 3 strings </span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">xlabel</span> <span class="o">=</span> <span class="s">r&#39;${0}$&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xy_unit</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&#39;u&#39;</span><span class="p">,</span> <span class="s">&#39;\mu &#39;</span><span class="p">))</span>
+    <span class="n">ylabel</span> <span class="o">=</span> <span class="s">r&#39;${0}$&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xy_unit</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&#39;u&#39;</span><span class="p">,</span> <span class="s">&#39;\mu &#39;</span><span class="p">))</span>
+    <span class="n">zlabel</span> <span class="o">=</span> <span class="s">r&#39;${0}$&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">z_unit</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&#39;u&#39;</span><span class="p">,</span> <span class="s">&#39;\mu &#39;</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">xlabel</span><span class="p">,</span> <span class="n">ylabel</span><span class="p">,</span> <span class="n">zlabel</span>
+  </div>
+<div class="viewcode-block" id="Spm_image.get_min_position"><a class="viewcode-back" href="../../generic.html#spym.generic.Spm_image.get_min_position">[docs]</a>  <span class="k">def</span> <span class="nf">get_min_position</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Returns the position in self.data of the minimum of self.data.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">Z</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span>
+    <span class="n">loc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">Z</span> <span class="o">==</span> <span class="n">Z</span><span class="o">.</span><span class="n">min</span><span class="p">())</span>
+    <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">loc</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">loc</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">x</span><span class="p">,</span><span class="n">y</span>
+  </div>
+<div class="viewcode-block" id="Spm_image.get_max_position"><a class="viewcode-back" href="../../generic.html#spym.generic.Spm_image.get_max_position">[docs]</a>  <span class="k">def</span> <span class="nf">get_max_position</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Returns the position in self.data of the maximum of self.data.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">Z</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span>
+    <span class="n">loc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">Z</span> <span class="o">==</span> <span class="n">Z</span><span class="o">.</span><span class="n">max</span><span class="p">())</span>
+    <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">loc</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">loc</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+  </div>
+<div class="viewcode-block" id="Spm_image.plane_fit"><a class="viewcode-back" href="../../generic.html#spym.generic.Spm_image.plane_fit">[docs]</a>  <span class="k">def</span> <span class="nf">plane_fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">mask</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Performs a plane fit on the image and returns the image minus the the plane and the plane itself ``spym.generic.spm_image`` instances.</span>
+<span class="sd">    </span>
+<span class="sd">    :param mask: None if no mask or a ``numpy.array`` instance containing np.nan where the data has to be occulted.</span>
+<span class="sd">    :type mask: None or ``numpy.array``</span>
+<span class="sd">    :rtype: 2 ``spym.generic.spm_image`` instance</span>
+<span class="sd">    </span>
+<span class="sd">    .. plot:: example_code/generic/Spm_image-plane_fit.py</span>
+<span class="sd">      :include-source: </span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">X</span><span class="p">,</span><span class="n">Y</span><span class="p">,</span><span class="n">Z</span> <span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">get_xyz</span><span class="p">()</span>
+    <span class="n">Zm</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">Z</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">mask</span> <span class="o">!=</span> <span class="bp">None</span><span class="p">:</span> <span class="n">Zm</span> <span class="o">+=</span> <span class="p">(</span><span class="n">mask</span><span class="o">-</span><span class="n">mask</span><span class="p">)</span>
+    <span class="n">coor</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">Zm</span><span class="p">)</span> <span class="o">==</span> <span class="bp">False</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span> <span class="n">coor</span> <span class="p">]</span> 
+    <span class="n">y</span> <span class="o">=</span> <span class="n">Y</span><span class="p">[</span> <span class="n">coor</span> <span class="p">]</span>
+    <span class="n">z</span> <span class="o">=</span> <span class="n">Z</span><span class="p">[</span> <span class="n">coor</span> <span class="p">]</span>  
+    <span class="n">fitfunc</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">p</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">:</span> <span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">x</span><span class="o">+</span><span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">y</span><span class="o">+</span><span class="n">p</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="c"># Target function</span>
+    <span class="n">errfunc</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">p</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span><span class="n">z</span><span class="p">:</span> <span class="n">fitfunc</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">)</span> <span class="o">-</span> <span class="n">z</span> <span class="c"># Error function</span>
+    <span class="n">p0</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">]</span>
+    <span class="n">p1</span><span class="p">,</span><span class="n">success</span> <span class="o">=</span>  <span class="n">optimize</span><span class="o">.</span><span class="n">leastsq</span><span class="p">(</span><span class="n">errfunc</span><span class="p">,</span> <span class="n">p0</span><span class="p">[:],</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">z</span><span class="p">))</span>
+    <span class="n">P</span> <span class="o">=</span> <span class="n">fitfunc</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">)</span>
+    <span class="n">Z2</span> <span class="o">=</span> <span class="n">Z</span> <span class="o">-</span> <span class="n">P</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+    <span class="n">out</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">Z2</span>
+    <span class="n">residual</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+    <span class="n">residual</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">P</span>
+    <span class="k">return</span> <span class="n">out</span><span class="p">,</span> <span class="n">residual</span>
+  </div>
+<div class="viewcode-block" id="Spm_image.line_fit"><a class="viewcode-back" href="../../generic.html#spym.generic.Spm_image.line_fit">[docs]</a>  <span class="k">def</span> <span class="nf">line_fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">mask</span> <span class="o">=</span> <span class="bp">False</span><span class="p">,</span> <span class="n">direction</span> <span class="o">=</span> <span class="s">&#39;x&#39;</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Performs a line fit on every line in a given scan direction.</span>
+<span class="sd">    </span>
+<span class="sd">    :param mask: array containing ``numpy.nan`` where the data is to be occulted.</span>
+<span class="sd">    :type mask: ``numpy.array``</span>
+<span class="sd">    :param direction: &#39;x&#39; for fits/scans along x axis and &quot;y&quot; for y axis.</span>
+<span class="sd">    :type direction: string</span>
+<span class="sd">    :rtype: 2 ``spym.generic.spm_image`` instance</span>
+<span class="sd">    </span>
+<span class="sd">    .. plot:: example_code/generic/Spm_image-line_fit.py</span>
+<span class="sd">      :include-source: </span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    
+    <span class="k">if</span> <span class="n">direction</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s">&#39;x&#39;</span><span class="p">,</span> <span class="s">&#39;y&#39;</span><span class="p">]:</span>
+      <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s">&#39;direction must be &quot;x&quot; or &quot;y&quot;.&#39;</span><span class="p">)</span>  
+    <span class="n">X</span><span class="p">,</span><span class="n">Y</span><span class="p">,</span><span class="n">Z</span> <span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">get_xyz</span><span class="p">()</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+    <span class="n">residual</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">direction</span> <span class="o">==</span> <span class="s">&#39;y&#39;</span><span class="p">:</span>
+      <span class="n">X</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">transpose</span><span class="p">()</span>
+      <span class="n">Y</span> <span class="o">=</span> <span class="n">Y</span><span class="o">.</span><span class="n">transpose</span><span class="p">()</span>
+      <span class="n">Z</span> <span class="o">=</span> <span class="n">Z</span><span class="o">.</span><span class="n">transpose</span><span class="p">()</span>
+      <span class="n">out</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">out</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">transpose</span><span class="p">()</span>
+      <span class="n">residual</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">residual</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">transpose</span><span class="p">()</span> 
+    <span class="n">Zm</span> <span class="o">=</span> <span class="n">Z</span> <span class="o">+</span> <span class="p">(</span><span class="n">mask</span><span class="o">-</span><span class="n">mask</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">Z</span><span class="p">)):</span>
+      <span class="n">x</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">zm</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">Z</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">Zm</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+      <span class="n">zc</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">zm</span><span class="p">)</span>
+      <span class="n">coor</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">zc</span><span class="p">)</span> <span class="o">==</span> <span class="bp">False</span><span class="p">)</span>
+      <span class="n">z_crop</span> <span class="o">=</span> <span class="n">z</span><span class="p">[</span><span class="n">coor</span><span class="p">]</span>
+      <span class="n">x_crop</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="n">coor</span><span class="p">]</span>  
+      <span class="n">fitfunc</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">p</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">x</span><span class="o">+</span><span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="c"># Target function</span>
+      <span class="n">errfunc</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">p</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span><span class="n">z</span><span class="p">:</span> <span class="n">fitfunc</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span> <span class="o">-</span> <span class="n">z</span> <span class="c"># Error function</span>
+      <span class="n">p0</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">]</span>
+      <span class="n">p1</span><span class="p">,</span><span class="n">success</span> <span class="o">=</span>  <span class="n">optimize</span><span class="o">.</span><span class="n">leastsq</span><span class="p">(</span><span class="n">errfunc</span><span class="p">,</span> <span class="n">p0</span><span class="p">[:],</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">x_crop</span><span class="p">,</span><span class="n">z_crop</span><span class="p">))</span>
+      <span class="n">l</span> <span class="o">=</span> <span class="n">fitfunc</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+      <span class="n">z</span> <span class="o">=</span> <span class="n">z</span> <span class="o">-</span> <span class="n">l</span>
+      <span class="n">out</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">z</span>
+      <span class="n">residual</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">l</span>
+    <span class="k">if</span> <span class="n">direction</span> <span class="o">==</span> <span class="s">&#39;y&#39;</span><span class="p">:</span>
+      <span class="n">out</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">out</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">transpose</span><span class="p">()</span>
+      <span class="n">residual</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">residual</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">transpose</span><span class="p">()</span> 
+    <span class="k">return</span> <span class="n">out</span><span class="p">,</span> <span class="n">residual</span>
+    </div>
+<div class="viewcode-block" id="Spm_image.rotate"><a class="viewcode-back" href="../../generic.html#spym.generic.Spm_image.rotate">[docs]</a>  <span class="k">def</span> <span class="nf">rotate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">angle</span><span class="p">,</span> <span class="n">tx</span> <span class="o">=</span> <span class="mf">0.</span><span class="p">,</span> <span class="n">ty</span> <span class="o">=</span> <span class="mf">0.</span><span class="p">,</span> <span class="n">method</span> <span class="o">=</span> <span class="s">&#39;linear&#39;</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Applies a combination of translation and rotation to the image in the xy plane using user selected method. The rotation is centered on the center of the image defined by the ``set_center`` method. This method is based on ``scipy.interpolate.griddata``. The returned image has the same size as the original image. As a consequence, corners can be lost in the process and masked zones can appear as well. Translation is applied before the rotation.</span>
+<span class="sd">    </span>
+<span class="sd">    :param angle: angle or rotation in degrees.</span>
+<span class="sd">    :type angle: float</span>
+<span class="sd">    :param tx: tranlation along x axis.</span>
+<span class="sd">    :type tx: float</span>
+<span class="sd">    :param ty: tranlation along y axis.</span>
+<span class="sd">    :type ty: float</span>
+<span class="sd">    :rtype: ``spym.generic.spm_image`` instance</span>
+<span class="sd">    </span>
+<span class="sd">    .. plot:: example_code/generic/Spm_image-rotate.py</span>
+<span class="sd">      :include-source: </span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">angle</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">angle</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">lx</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">x_samples</span><span class="p">())</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">xc</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ly</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y_samples</span><span class="p">())</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">yc</span> 
+    <span class="n">X</span><span class="p">,</span> <span class="n">Y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">)</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+    <span class="n">Y</span> <span class="o">=</span> <span class="n">Y</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+    <span class="n">points</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">X</span><span class="o">+</span><span class="n">tx</span><span class="p">,</span><span class="n">Y</span><span class="o">+</span><span class="n">ty</span><span class="p">])</span><span class="o">.</span><span class="n">transpose</span><span class="p">()</span>
+    <span class="n">X2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">angle</span><span class="p">)</span> <span class="o">*</span> <span class="n">X</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">angle</span><span class="p">)</span> <span class="o">*</span> <span class="n">Y</span>
+    <span class="n">Y2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">angle</span><span class="p">)</span> <span class="o">*</span> <span class="n">Y</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">angle</span><span class="p">)</span> <span class="o">*</span> <span class="n">X</span>
+    <span class="n">Z</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+    <span class="n">Z2</span> <span class="o">=</span> <span class="n">interpolate</span><span class="o">.</span><span class="n">griddata</span><span class="p">(</span><span class="n">points</span><span class="p">,</span> <span class="n">Z</span><span class="p">,</span> <span class="p">(</span><span class="n">X2</span><span class="p">,</span> <span class="n">Y2</span><span class="p">),</span> <span class="n">method</span> <span class="o">=</span> <span class="n">method</span><span class="p">)</span>
+    <span class="n">Z2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">Z2</span><span class="p">,</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x_samples</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">y_samples</span><span class="p">()))</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+    <span class="n">out</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">Z2</span>
+    <span class="k">return</span> <span class="n">out</span>
+  </div>
+<div class="viewcode-block" id="Spm_image.interpolate"><a class="viewcode-back" href="../../generic.html#spym.generic.Spm_image.interpolate">[docs]</a>  <span class="k">def</span> <span class="nf">interpolate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">method</span> <span class="o">=</span> <span class="s">&#39;linear&#39;</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Interpolates data on any points arranged in any way (single points, line/1D arrays, zone/2D arrays). Input is just 2 arrays of any identical shape representing x and y coordinates of the points where data has to be interpolated.</span>
+<span class="sd">    </span>
+<span class="sd">    :param X: array of x positions</span>
+<span class="sd">    :type X: ``numpy.array`` </span>
+<span class="sd">    :param Y: array of Y positions</span>
+<span class="sd">    :type Y: ``numpy.array`` </span>
+<span class="sd">    :param method: method of interpolation used in ``scipy.interpolate.griddata``</span>
+<span class="sd">    :type method: string</span>
+<span class="sd">    </span>
+<span class="sd">    .. plot:: example_code/generic/Spm_image-interpolate.py</span>
+<span class="sd">      :include-source: </span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">x0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">lx</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">x_samples</span><span class="p">())</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">xc</span>
+    <span class="n">y0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ly</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y_samples</span><span class="p">())</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">yc</span>
+    <span class="n">X0</span><span class="p">,</span> <span class="n">Y0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">x0</span><span class="p">,</span><span class="n">y0</span><span class="p">)</span>
+    <span class="n">X0</span> <span class="o">=</span> <span class="n">X0</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+    <span class="n">Y0</span> <span class="o">=</span> <span class="n">Y0</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+    <span class="n">Z0</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+    <span class="n">points</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">X0</span><span class="p">,</span><span class="n">Y0</span><span class="p">])</span><span class="o">.</span><span class="n">transpose</span><span class="p">()</span>
+    <span class="n">Z</span> <span class="o">=</span> <span class="n">interpolate</span><span class="o">.</span><span class="n">griddata</span><span class="p">(</span><span class="n">points</span><span class="p">,</span> <span class="n">Z0</span><span class="p">,</span> <span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">),</span> <span class="n">method</span> <span class="o">=</span> <span class="s">&#39;linear&#39;</span><span class="p">)</span>
+    <span class="n">mask</span> <span class="o">=</span> <span class="n">Z</span> <span class="o">-</span> <span class="n">Z</span> 
+    <span class="k">return</span> <span class="n">X</span> <span class="o">+</span> <span class="n">mask</span> <span class="p">,</span> <span class="n">Y</span> <span class="o">+</span> <span class="n">mask</span><span class="p">,</span> <span class="n">Z</span>
+  
+      </div>
+<div class="viewcode-block" id="Spm_image.translate"><a class="viewcode-back" href="../../generic.html#spym.generic.Spm_image.translate">[docs]</a>  <span class="k">def</span> <span class="nf">translate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nx</span><span class="p">,</span> <span class="n">ny</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Translates the image by a number of pixels on x and y axis. This methods differs from rotate because it does not involve interpolation and so it is faster but does not allow all translation (just integer number of pixels).</span>
+<span class="sd">    </span>
+<span class="sd">    :param nx: number of pixels along x.</span>
+<span class="sd">    :type nx: signed int</span>
+<span class="sd">    :param ny: number of pixels along y.</span>
+<span class="sd">    :type ny: signed int</span>
+<span class="sd">    :rtype: ``spym.generic.spm_image`` instance</span>
+<span class="sd">    </span>
+<span class="sd">    .. plot:: example_code/generic/Spm_image-translate.py</span>
+<span class="sd">      :include-source: </span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">nx</span> <span class="o">=</span> <span class="o">-</span><span class="n">nx</span>
+    <span class="n">ny</span> <span class="o">=</span> <span class="o">-</span><span class="n">ny</span>
+    <span class="n">Z</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span>
+    <span class="n">Z2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">Z</span><span class="p">)</span>
+    <span class="n">Z2</span><span class="p">[:,:]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+    <span class="n">Nx</span><span class="p">,</span> <span class="n">Ny</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">x_samples</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">y_samples</span><span class="p">()</span> 
+    <span class="n">ix0</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">nx</span><span class="p">,</span> <span class="n">Nx</span><span class="p">),</span> <span class="mi">0</span><span class="p">)</span> 
+    <span class="n">ix1</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">Nx</span><span class="p">,</span> <span class="n">Nx</span> <span class="o">+</span> <span class="n">nx</span><span class="p">),</span> <span class="mi">0</span><span class="p">)</span> 
+    <span class="n">iy0</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">ny</span><span class="p">,</span> <span class="n">Ny</span><span class="p">),</span> <span class="mi">0</span><span class="p">)</span> 
+    <span class="n">iy1</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">Ny</span><span class="p">,</span> <span class="n">Ny</span> <span class="o">+</span> <span class="n">ny</span><span class="p">),</span> <span class="mi">0</span><span class="p">)</span>  
+    <span class="n">Zs</span> <span class="o">=</span> <span class="n">Z</span><span class="p">[</span><span class="n">iy0</span><span class="p">:</span><span class="n">iy1</span><span class="p">,</span> <span class="n">ix0</span><span class="p">:</span><span class="n">ix1</span><span class="p">]</span>     
+    <span class="n">Z2</span><span class="p">[</span><span class="n">Ny</span> <span class="o">-</span> <span class="n">iy1</span><span class="p">:</span><span class="n">Ny</span> <span class="o">-</span><span class="n">iy0</span><span class="p">,</span><span class="n">Nx</span> <span class="o">-</span> <span class="n">ix1</span><span class="p">:</span><span class="n">Nx</span> <span class="o">-</span><span class="n">ix0</span><span class="p">]</span> <span class="o">=</span> <span class="n">Zs</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+    <span class="n">out</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">Z2</span>
+    <span class="k">return</span> <span class="n">out</span>
+ </div>
+<div class="viewcode-block" id="Spm_image.crop"><a class="viewcode-back" href="../../generic.html#spym.generic.Spm_image.crop">[docs]</a>  <span class="k">def</span> <span class="nf">crop</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cx0</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">cx1</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">cy0</span><span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">cy1</span> <span class="o">=</span> <span class="mi">0</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Crops the image by a given pixel number on each side and refreshes image data such as ``self.lx`` and ``self.ly``. Negative values are allowed and produce empty (masked) areas.</span>
+<span class="sd">    </span>
+<span class="sd">    :param cx0: number of pixels to remove on lower x side.</span>
+<span class="sd">    :type cx0: integer</span>
+<span class="sd">    :param cx1: number of pixels to remove on upper x side.</span>
+<span class="sd">    :type cx1: integer</span>
+<span class="sd">    :param cy0: number of pixels to remove on lower y side.</span>
+<span class="sd">    :type cy0: integer</span>
+<span class="sd">    :param cy1: number of pixels to remove on upper y side.</span>
+<span class="sd">    :type cy1: integer</span>
+<span class="sd">    </span>
+<span class="sd">    .. plot:: example_code/generic/Spm_image-crop.py</span>
+<span class="sd">      :include-source: </span>
+<span class="sd">    &#39;&#39;&#39;</span> 
+    <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">Z</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_xyz</span><span class="p">()</span>
+    <span class="n">nx0</span><span class="p">,</span> <span class="n">ny0</span> <span class="o">=</span>  <span class="bp">self</span><span class="o">.</span><span class="n">x_samples</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">y_samples</span><span class="p">()</span>
+    <span class="n">nx</span> <span class="o">=</span> <span class="n">nx0</span> <span class="o">-</span> <span class="n">cx0</span> <span class="o">-</span> <span class="n">cx1</span> <span class="c"># new x size</span>
+    <span class="n">ny</span> <span class="o">=</span> <span class="n">ny0</span> <span class="o">-</span> <span class="n">cy0</span> <span class="o">-</span> <span class="n">cy1</span> <span class="c"># new y size</span>
+    <span class="n">new_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="n">ny</span><span class="p">,</span> <span class="n">nx</span><span class="p">))</span>
+    <span class="n">new_data</span><span class="p">[:]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+    <span class="n">cropped</span> <span class="o">=</span> <span class="n">Z</span><span class="p">[</span> <span class="nb">max</span><span class="p">(</span><span class="n">cy0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="p">:</span> <span class="nb">min</span><span class="p">(</span><span class="n">ny0</span><span class="p">,</span> <span class="n">ny0</span><span class="o">-</span><span class="n">cy1</span> <span class="p">),</span> <span class="nb">max</span><span class="p">(</span><span class="n">cx0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="p">:</span> <span class="nb">min</span><span class="p">(</span><span class="n">nx0</span><span class="p">,</span> <span class="n">nx0</span><span class="o">-</span><span class="n">cx1</span> <span class="p">)</span> <span class="p">]</span>
+    <span class="n">new_data</span><span class="p">[</span> <span class="nb">max</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="n">cy0</span><span class="p">)</span> <span class="p">:</span> <span class="nb">max</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="n">cy0</span><span class="p">)</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">cropped</span><span class="p">),</span>  <span class="nb">max</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="n">cx0</span><span class="p">)</span> <span class="p">:</span> <span class="nb">max</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="n">cx0</span><span class="p">)</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">cropped</span><span class="p">[</span><span class="mi">0</span><span class="p">])]</span> <span class="o">=</span> <span class="n">cropped</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+    <span class="n">out</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">new_data</span>
+    <span class="n">out</span><span class="o">.</span><span class="n">lx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lx</span> <span class="o">*</span> <span class="nb">float</span><span class="p">(</span><span class="n">nx</span><span class="p">)</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="n">nx0</span><span class="p">)</span>
+    <span class="n">out</span><span class="o">.</span><span class="n">ly</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ly</span> <span class="o">*</span> <span class="nb">float</span><span class="p">(</span><span class="n">ny</span><span class="p">)</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="n">ny0</span><span class="p">)</span>
+    <span class="n">out</span><span class="o">.</span><span class="n">xc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xc</span> <span class="o">-</span> <span class="nb">float</span><span class="p">(</span><span class="n">cx0</span><span class="p">)</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="n">nx0</span><span class="p">)</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">lx</span>
+    <span class="n">out</span><span class="o">.</span><span class="n">yc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">yc</span> <span class="o">-</span> <span class="nb">float</span><span class="p">(</span><span class="n">cy0</span><span class="p">)</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="n">ny0</span><span class="p">)</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">ly</span>
+    <span class="k">return</span> <span class="n">out</span>
+</div>
+<div class="viewcode-block" id="Spm_image.center_min"><a class="viewcode-back" href="../../generic.html#spym.generic.Spm_image.center_min">[docs]</a>  <span class="k">def</span> <span class="nf">center_min</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Centers the image on the minimum z value.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">Z</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_xyz</span><span class="p">()</span>
+    <span class="n">loc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_min_position</span><span class="p">()</span>
+    <span class="n">xc</span><span class="p">,</span> <span class="n">yc</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="n">loc</span><span class="p">],</span> <span class="n">Y</span><span class="p">[</span><span class="n">loc</span><span class="p">]</span> 
+    <span class="bp">self</span><span class="o">.</span><span class="n">set_center</span><span class="p">(</span><span class="n">xc</span> <span class="o">=</span> <span class="n">xc</span><span class="p">,</span> <span class="n">yc</span> <span class="o">=</span> <span class="n">yc</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="Spm_image.center_max"><a class="viewcode-back" href="../../generic.html#spym.generic.Spm_image.center_max">[docs]</a>  <span class="k">def</span> <span class="nf">center_max</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Centers the image on the maximum z value.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">Z</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_xyz</span><span class="p">()</span>
+    <span class="n">loc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_max_position</span><span class="p">()</span>
+    <span class="n">xc</span><span class="p">,</span> <span class="n">yc</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="n">loc</span><span class="p">],</span> <span class="n">Y</span><span class="p">[</span><span class="n">loc</span><span class="p">]</span> 
+    <span class="bp">self</span><span class="o">.</span><span class="n">set_center</span><span class="p">(</span><span class="n">xc</span> <span class="o">=</span> <span class="n">xc</span><span class="p">,</span> <span class="n">yc</span> <span class="o">=</span> <span class="n">yc</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="Spm_image.copy"><a class="viewcode-back" href="../../generic.html#spym.generic.Spm_image.copy">[docs]</a>  <span class="k">def</span> <span class="nf">copy</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Returns a deepcopy of the image.</span>
+<span class="sd">    </span>
+<span class="sd">    :rtype: ``spym.Spm_image`` instance.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">return</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+  </div>
+<div class="viewcode-block" id="Spm_image.is_like"><a class="viewcode-back" href="../../generic.html#spym.generic.Spm_image.is_like">[docs]</a>  <span class="k">def</span> <span class="nf">is_like</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Tests if lx, ly, x_samples(), y_samples(), xc, yc are identical and returns the result (True or False). </span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="bp">True</span>
+    <span class="n">other</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">other</span><span class="o">.</span><span class="n">change_xy_unit</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xy_unit</span><span class="p">)</span>
+    <span class="n">other</span><span class="o">.</span><span class="n">change_z_unit</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">z_unit</span><span class="p">)</span> 
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">lx</span> <span class="o">!=</span> <span class="n">other</span><span class="o">.</span><span class="n">lx</span><span class="p">:</span> <span class="n">out</span> <span class="o">=</span> <span class="bp">False</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">ly</span> <span class="o">!=</span> <span class="n">other</span><span class="o">.</span><span class="n">ly</span><span class="p">:</span> <span class="n">out</span> <span class="o">=</span> <span class="bp">False</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">x_samples</span><span class="p">()</span> <span class="o">!=</span> <span class="n">other</span><span class="o">.</span><span class="n">x_samples</span><span class="p">():</span> <span class="n">out</span> <span class="o">=</span> <span class="bp">False</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">y_samples</span><span class="p">()</span> <span class="o">!=</span> <span class="n">other</span><span class="o">.</span><span class="n">y_samples</span><span class="p">():</span> <span class="n">out</span> <span class="o">=</span> <span class="bp">False</span> 
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">xc</span> <span class="o">!=</span> <span class="n">other</span><span class="o">.</span><span class="n">xc</span><span class="p">:</span> <span class="n">out</span> <span class="o">=</span> <span class="bp">False</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">yc</span> <span class="o">!=</span> <span class="n">other</span><span class="o">.</span><span class="n">yc</span><span class="p">:</span> <span class="n">out</span> <span class="o">=</span> <span class="bp">False</span>
+    <span class="k">return</span> <span class="n">out</span>
+     </div>
+<div class="viewcode-block" id="protractor"><a class="viewcode-back" href="../../generic.html#spym.generic.protractor">[docs]</a><span class="k">def</span> <span class="nf">protractor</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">r0</span><span class="p">,</span> <span class="n">r1</span><span class="p">,</span> <span class="n">nGrad</span> <span class="o">=</span> <span class="mi">180</span><span class="p">,</span> <span class="n">xc</span> <span class="o">=</span> <span class="mf">0.</span><span class="p">,</span> <span class="n">yc</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span> <span class="n">ls</span> <span class="o">=</span> <span class="s">&#39;-&#39;</span><span class="p">,</span> <span class="n">lw</span> <span class="o">=</span> <span class="o">.</span><span class="mi">1</span><span class="p">,</span> <span class="n">fs</span> <span class="o">=</span> <span class="mf">4.</span><span class="p">,</span> <span class="n">deportText</span> <span class="o">=</span> <span class="mf">0.06</span><span class="p">):</span>
+  <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">  Add a protractor to a subplot in order to measure various angles.</span>
+<span class="sd">  </span>
+<span class="sd">  :param ax: subplot where to add the protractor.</span>
+<span class="sd">  :type ax: ``matplotlib.axes.AxesSubplot`` instance.</span>
+<span class="sd">  :param r0: min radius of the protractor.</span>
+<span class="sd">  :type r0: float </span>
+<span class="sd">  :param r1: max radius of the protractor.</span>
+<span class="sd">  :type r1: float</span>
+<span class="sd">  :param nGrad: number of graduations.</span>
+<span class="sd">  :type r0: int</span>
+<span class="sd">  :param xc: x coordinate of the center of the protractor.</span>
+<span class="sd">  :type xc: float  </span>
+<span class="sd">  :param yc: y coordinate of the center of the protractor.</span>
+<span class="sd">  :type yc: float  </span>
+<span class="sd">  :param ls: line style.</span>
+<span class="sd">  :type ls: float</span>
+<span class="sd">  :param lw: line width.</span>
+<span class="sd">  :type lw: float</span>
+<span class="sd">  :param fs: font size.</span>
+<span class="sd">  :type fs: float</span>
+<span class="sd">  :param deportText: text deportation.</span>
+<span class="sd">  :type deportText: float</span>
+<span class="sd">  </span>
+<span class="sd">  .. plot:: example_code/generic/protractor.py</span>
+<span class="sd">     :include-source:   </span>
+<span class="sd">  &#39;&#39;&#39;</span>
+  <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="n">nGrad</span><span class="p">):</span>
+    <span class="n">angle</span> <span class="o">=</span> <span class="n">i</span> <span class="o">*</span> <span class="mf">2.</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="n">nGrad</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="p">[</span><span class="n">xc</span> <span class="o">+</span> <span class="n">r0</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">angle</span><span class="p">),</span> <span class="n">xc</span><span class="o">+</span> <span class="n">r1</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">angle</span><span class="p">)]</span>
+    <span class="n">Y</span> <span class="o">=</span> <span class="p">[</span><span class="n">yc</span> <span class="o">+</span> <span class="n">r0</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">angle</span><span class="p">),</span> <span class="n">yc</span><span class="o">+</span> <span class="n">r1</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">angle</span><span class="p">)]</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">Y</span><span class="p">,</span>
+      <span class="n">color</span> <span class="o">=</span> <span class="s">&#39;black&#39;</span><span class="p">,</span> 
+      <span class="n">linestyle</span><span class="o">=</span> <span class="n">ls</span><span class="p">,</span> 
+      <span class="n">linewidth</span> <span class="o">=</span> <span class="n">lw</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span>
+      <span class="n">yc</span> <span class="o">+</span> <span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span> <span class="n">yc</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">deportText</span><span class="p">),</span> 
+      <span class="n">xc</span> <span class="o">+</span> <span class="p">(</span><span class="n">Y</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span> <span class="n">xc</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">deportText</span><span class="p">),</span> 
+      <span class="s">&#39;{0:.1f}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">degrees</span><span class="p">(</span><span class="n">angle</span><span class="p">)),</span> 
+      <span class="n">horizontalalignment</span><span class="o">=</span><span class="s">&#39;center&#39;</span><span class="p">,</span>  
+      <span class="n">verticalalignment</span><span class="o">=</span><span class="s">&#39;center&#39;</span><span class="p">,</span> 
+      <span class="n">size</span> <span class="o">=</span> <span class="n">fs</span><span class="p">,</span> 
+      <span class="n">rotation</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">degrees</span><span class="p">(</span><span class="n">angle</span><span class="p">))</span>  
+</pre></div></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../index.html">spym 1.0.0 documentation</a> &raquo;</li>
+          <li><a href="../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2012, Ludovic Charleux.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>
