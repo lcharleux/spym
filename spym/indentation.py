@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import numpy as np
 import scipy.ndimage as nd
 from scipy import signal
@@ -123,7 +125,22 @@ def Contact_area(image, indenter):
   
 def Watershed(image, angle = 2.5, size = None, filter_type = 'med'):
   '''
-  Returns the watershed of the image.
+  Returns the contour of the contact area according to the method introduced in [1]_ . 
+  
+  .. [1] L. Charleux, V. Keryvin, M. Nivard, J.-P. Guin, J.-C. Sangleboeuf, and Y. Yokoyama, "A method for measuring the contact area in instrumented indentation testing by tip scanning probe microscopy imaging", Acta Mater., vol. 70, pp. 249-258  `DOI <http://dx.doi.org/10.1016/j.actamat.2014.02.036>`_. 
+  
+  :param image: the image to use.
+  :type image: ``spym.generic.Spm_image`` instance.
+  :param angle: cross section tilt angle 
+  :type angle: float
+  :param size: filter core size, if None, no filter is applied.
+  :type size: int or float
+  :param filter_type: "med" for floating average filter and "gauss" for gaussian filter.
+  :type filter_type: string
+  
+  .. plot:: example_code/indentation/Watershed.py
+    :include-source:  
+  
   '''
   image = image.copy()
   xy_factor = image.get_xy_factor()
