@@ -506,8 +506,8 @@ class Spm_image(object):
     Y0 = Y0.flatten()
     Z0 = self.data.flatten()
     points = np.array([X0,Y0]).transpose()
-    Z = interpolate.griddata(points, Z0, (X, Y), method = 'linear')
-    mask = Z - Z 
+    Z = interpolate.griddata(points, Z0, (X, Y), method = method)
+    mask = Z - Z # 0 or Nan
     return X + mask , Y + mask, Z
   
       
