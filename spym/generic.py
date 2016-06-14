@@ -510,6 +510,37 @@ class Spm_image(object):
     mask = Z - Z # 0 or Nan
     return X + mask , Y + mask, Z
   
+  def section(self, origin = (0., 0.), angle = 0., 
+              direction = "both", method = "linear", Np = 200):
+    """
+    Produces a cross section of the image from the origin point and with a given angle relatively to the x axis.
+    
+    :param origin: (x, y) coordinates of the origin
+    :type origin: tuple 
+    :param angle: angle vs. x axis.
+    :type angle: float 
+    :param direction: can be "both", "front", "back".
+    :type direction: str
+    :param method: method of interpolation used in ``scipy.interpolate.griddata``
+    :type method: string
+    
+    .. plot:: example_code/generic/Spm_image-section.py
+      :include-source:   
+    """
+    lx, ly = self.lx, self.ly
+    xc, yc = origin
+    rmax = max(abs(xc), abs(lx - xc), abs(yc), abs(ly - yc)) 
+    #Np = max(self.data.shape)
+    if direction == "both":
+      s = np.linspace(-rmax, rmax, Np)
+    elif direction == "front":
+      s = np.linspace(0., rmax, Np) 
+    elif direction == "back":
+      s = np.linspace(0., -rmax, Np) 
+    x = np.cos(np.radians(angle)) * s 
+    y = np.sin(np.radians(angle)) * s
+    x, y, z = self.interpolate(x, y)  
+    return x, y, s, z
       
   def translate(self, nx, ny):
     '''

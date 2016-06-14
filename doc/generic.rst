@@ -56,6 +56,7 @@ ____________________
 .. automethod:: spym.generic.Spm_image.rotate
 .. automethod:: spym.generic.Spm_image.translate
 .. automethod:: spym.generic.Spm_image.interpolate
+.. automethod:: spym.generic.Spm_image.section
 .. automethod:: spym.generic.Spm_image.crop
 
 Tests
